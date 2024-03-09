@@ -1,4 +1,4 @@
-class Equipment {
+public class Equipment {
     private String name;
     private int price;
     private int attack;
@@ -14,7 +14,7 @@ class Equipment {
             this.defense = 1;
             this.health = 0;
             this.speed = -1;
-        } 
+        }
         else if (name.equals("Excalibur")) {
             this.price = 150;
             this.attack = 2;

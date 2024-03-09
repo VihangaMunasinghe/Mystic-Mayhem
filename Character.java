@@ -109,21 +109,4 @@ class Character {
         return currentArtefact;
     }
 
-    public void changeAttack(int amount) {
-        this.attack = this.attack + amount;
-    }
-
-    public void changeDefense(int amount) {
-        this.defense = this.defense + amount;
-    }
-
-    public void changeHealth(int amount) {
-        this.health = this.health + amount;
-    }
-
-    public void changeSpeed(int amount) {
-        this.speed = this.speed + amount;
-    }
 }
-
-
