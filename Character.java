@@ -53,12 +53,12 @@ class Character {
             System.out.println("Already Taken");
         }
         else{
-            int armorPrice = newArtefact.getPrice();
+            int artefactPrice = newArtefact.getPrice();
             int goldCoins = currentPlayer.getGoldCoins();
-            if (goldCoins >= armorPrice) {
-                currentPlayer.updateGoldCoins(-armorPrice);
+            if (goldCoins >= artefactPrice) {
+                currentPlayer.updateGoldCoins(-artefactPrice);
                 currentArtefact = newArtefact;
-                System.out.println(name + " purchased armor for " + armorPrice + " gold coins.");
+                System.out.println(name + " purchased artefact for " + artefactPrice + " gold coins.");
             }
             else
             {
