@@ -7,7 +7,7 @@ public class Player{
     private String userName;
     private int xp;
     private int goldCoins;
-
+    private static int noOfPlayers = 0;
     private HomeGround homeground;
 
     private List<Character> army;
@@ -20,6 +20,7 @@ public class Player{
     public Player(String name, String userName) {
         this.name = name;
         this.userName = userName;
+        this.userId = noOfPlayers++;
         this.xp = 0;
         this.goldCoins = 500;
     }
