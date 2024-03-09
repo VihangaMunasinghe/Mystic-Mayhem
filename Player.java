@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.Scanner;
+
 public class Player{
     private int userId;
     private String name;
@@ -5,14 +8,43 @@ public class Player{
     private int xp;
     private int goldCoins;
 
-    private String[] army;
+    private HomeGround homeground;
+
+    private List<Character> army;
 
     public Player(){
 
     }
 
-    public void createAccount(){
 
+    public Player(String name, String userName) {
+        this.name = name;
+        this.userName = userName;
+        this.xp = 0;
+        this.goldCoins = 500;
+    }
+
+    public Player(int userId, String name, String userName, int xp, int goldCoins, List<Character> army) {
+        this.userId = userId;
+        this.name = name;
+        this.userName = userName;
+        this.xp = xp;
+        this.goldCoins = goldCoins;
+        this.army = army;
+    }
+
+    public void createAccount(){
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the name: ");
+        name = scanner.nextLine();
+
+        System.out.println("Enter the username: ");
+        userName = scanner.nextLine();
+
+        Player player = new Player(name,userName);
+
+        scanner.close();
     }
     public int getUserId(){
         return userId;
@@ -33,7 +65,7 @@ public class Player{
         return xp;
     }
 
-    public void setXp(int num){
+    public void updateXp(int num){
         xp = xp + num;
     }
 
@@ -41,7 +73,7 @@ public class Player{
         return goldCoins;
     }
 
-    public void setGoldCoins(){
+    public void updateGoldCoins(){
 
     }
 
@@ -49,9 +81,14 @@ public class Player{
 
     }
 
-    public void setArmy(){
-
+    public HomeGround getHomeground() {
+        return homeground;
     }
+
+    public void setHomeground(HomeGround homeground) {
+        this.homeground = homeground;
+    }
+
     public void buyCharacter(){
 
     }
