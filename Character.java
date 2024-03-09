@@ -8,12 +8,12 @@ class Character {
     private int defense;
     private int health;
     private int speed;
-    private string currentArmour;
-    private string currentArtefact;
+    private String currentArmour;
+    private String currentArtefact;
 
     public Character(String name, String type, String category, int price,
-                     int attack, int defense, int health, int speed,string currentArmour,
-                     string currentArtefact;) {
+                     int attack, int defense, int health, int speed,String currentArmour,
+                     String currentArtefact) {
         this.name = name;
         this.type = type;
         this.category = category;
@@ -27,11 +27,11 @@ class Character {
         this.currentArtefact=currentArtefact;
     }
 
-    public void buyArmours(string newArmour) {
+    public void buyArmours(String newArmour) {
         Store store = new Store();
-        newArmour=store.showArmours();
+        newArmour =store.showArmours();
         if(newArmour==currentArmour){
-            System.out.println("Already Taken")
+            System.out.println("Already Taken");
         }
         else{
             Equipment equipment =new Equipment(newArmour);
@@ -46,18 +46,18 @@ class Character {
                 System.out.println("Insufficient gold coins to buy armor.");
             }
     }}
-    public void buyArtefact(string newArmour) {
+    public void buyArtefact(String newArtefact) {
         Store store = new Store();
-        newArmour=store.showArtefacts();
-        if(newArtefacts==currentArtefacts){
-            System.out.println("Already Taken")
+        newArtefact=store.showArtefacts();
+        if(newArtefact==currentArtefact){
+            System.out.println("Already Taken");
         }
         else{
-            Equipment equipment =new Equipment(newArtefacts);
+            Equipment equipment =new Equipment(newArtefact);
             int artefactsPrice = equipment.getPrice();
-            if (currentValue >= armorPrice) {
-                currentValue -= armorPrice;
-                currentArtefacts = newArtefacts;
+            if (currentValue >= artefactsPrice) {
+                currentValue -= artefactsPrice;
+                currentArtefact = newArtefact;
                 System.out.println(name + " purchased artefacts for " + artefactsPrice + " gold coins.");
             }
             else
@@ -109,47 +109,47 @@ class Character {
         return currentArtefact;
     }
 
-    public void setName(String name) {
+    public void changeName(String name) {
         this.name = name;
     }
 
-    public void setType(String type) {
+    public void changeType(String type) {
         this.type = type;
     }
 
-    public void setCategory(String category) {
+    public void changeCategory(String category) {
         this.category = category;
     }
 
-    public void setPrice(int price) {
+    public void changePrice(int price) {
         this.price = price;
     }
 
-    public void setCurrentValue(int currentValue) {
+    public void changeCurrentValue(int currentValue) {
         this.currentValue = currentValue;
     }
 
-    public void setAttack(int attack) {
+    public void changeAttack(int attack) {
         this.attack = attack;
     }
 
-    public void setDefense(int defense) {
+    public void changeDefense(int defense) {
         this.defense = defense;
     }
 
-    public void setHealth(int health) {
+    public void changeHealth(int health) {
         this.health = health;
     }
 
-    public void setSpeed(int speed) {
+    public void changeSpeed(int speed) {
         this.speed = speed;
     }
 
-    public void setCurrentArmour(String currentArmour) {
+    public void changeCurrentArmour(String currentArmour) {
         this.currentArmour = currentArmour;
     }
 
-    public void setCurrentArtefact(String currentArtefact) {
+    public void changeCurrentArtefact(String currentArtefact) {
         this.currentArtefact = currentArtefact;
     }
 }
