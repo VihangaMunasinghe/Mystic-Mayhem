@@ -109,48 +109,20 @@ class Character {
         return currentArtefact;
     }
 
-    public void changeName(String name) {
-        this.name = name;
+    public void changeAttack(int amount) {
+        this.attack = this.attack + amount;
     }
 
-    public void changeType(String type) {
-        this.type = type;
+    public void changeDefense(int amount) {
+        this.defense = this.defense + amount;
     }
 
-    public void changeCategory(String category) {
-        this.category = category;
+    public void changeHealth(int amount) {
+        this.health = this.health + amount;
     }
 
-    public void changePrice(int price) {
-        this.price = price;
-    }
-
-    public void changeCurrentValue(int currentValue) {
-        this.currentValue = currentValue;
-    }
-
-    public void changeAttack(int attack) {
-        this.attack = attack;
-    }
-
-    public void changeDefense(int defense) {
-        this.defense = defense;
-    }
-
-    public void changeHealth(int health) {
-        this.health = health;
-    }
-
-    public void changeSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public void changeCurrentArmour(String currentArmour) {
-        this.currentArmour = currentArmour;
-    }
-
-    public void changeCurrentArtefact(String currentArtefact) {
-        this.currentArtefact = currentArtefact;
+    public void changeSpeed(int amount) {
+        this.speed = this.speed + amount;
     }
 }
 
