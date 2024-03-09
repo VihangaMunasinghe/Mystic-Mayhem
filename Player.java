@@ -15,16 +15,6 @@ public class Player{
     public Player(){
 
     }
-
-
-    public Player(String name, String userName) {
-        this.name = name;
-        this.userName = userName;
-        this.userId = noOfPlayers++;
-        this.xp = 0;
-        this.goldCoins = 500;
-    }
-
     public Player(int userId, String name, String userName, int xp, int goldCoins, List<Character> army) {
         this.userId = userId;
         this.name = name;
@@ -35,17 +25,7 @@ public class Player{
     }
 
     public void createAccount(){
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter the name: ");
-        name = scanner.nextLine();
-
-        System.out.println("Enter the username: ");
-        userName = scanner.nextLine();
-
-        Player player = new Player(name,userName);
-
-        scanner.close();
     }
     public int getUserId(){
         return userId;
@@ -66,16 +46,16 @@ public class Player{
         return xp;
     }
 
-    public void updateXp(int num){
-        xp = xp + num;
+    public void updateXp(int x){
+        xp = xp + x;
     }
 
     public int getGoldCoins(){
         return goldCoins;
     }
 
-    public void updateGoldCoins(){
-
+    public void updateGoldCoins(int x){
+        goldCoins = goldCoins + x;
     }
 
     public void getArmy(){
