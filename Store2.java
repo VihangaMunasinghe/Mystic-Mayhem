@@ -9,7 +9,7 @@ public class Store2 {
             instance = new Store();
         }
         return instance;
-    }
+    }//
 
     List<Character> archers = new ArrayList<>();
     List<Character> knights = new ArrayList<>();
