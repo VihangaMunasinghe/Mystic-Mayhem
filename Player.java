@@ -1,14 +1,27 @@
+import java.util.List;
+import java.util.Scanner;
+
 public class Player{
     private int userId;
     private String name;
     private String userName;
     private int xp;
     private int goldCoins;
+    private static int noOfPlayers = 0;
+    private HomeGround homeground;
 
-    private String[] army;
+    private List<Character> army;
 
     public Player(){
 
+    }
+    public Player(int userId, String name, String userName, int xp, int goldCoins, List<Character> army) {
+        this.userId = userId;
+        this.name = name;
+        this.userName = userName;
+        this.xp = xp;
+        this.goldCoins = goldCoins;
+        this.army = army;
     }
 
     public void createAccount(){
@@ -33,25 +46,30 @@ public class Player{
         return xp;
     }
 
-    public void setXp(int num){
-        xp = xp + num;
+    public void updateXp(int x){
+        xp = xp + x;
     }
 
     public int getGoldCoins(){
         return goldCoins;
     }
 
-    public void setGoldCoins(){
-
+    public void updateGoldCoins(int x){
+        goldCoins = goldCoins + x;
     }
 
     public void getArmy(){
 
     }
 
-    public void setArmy(){
-
+    public HomeGround getHomeground() {
+        return homeground;
     }
+
+    public void setHomeground(HomeGround homeground) {
+        this.homeground = homeground;
+    }
+
     public void buyCharacter(){
 
     }
