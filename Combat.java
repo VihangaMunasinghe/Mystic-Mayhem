@@ -9,13 +9,13 @@ public class Combat {
     private Player player2Copy;
     private final HomeGround homeGround;
     private Character player1Attacker = null, player1Defender = null, player2Attacker = null, player2Defender = null;
-    private final Map<String, Integer> attackPriorityOrder = new HashMap<String, Integer>(){{
+    private final Map<String, Integer> attackPriorityOrder = new HashMap<>() {{
         put("Healer", 1);
         put("Mage", 2);
         put("Mythical Creature", 3);
         put("Knight", 4);
         put("Archer", 5);
-        }};
+    }};
     private final Map<String, Integer> defendPriorityOrder = new HashMap<String, Integer>(){{
         put("Mage", 1);
         put("Knight", 2);
@@ -55,7 +55,7 @@ public class Combat {
 
             //// Player1's turn
             System.out.println("Turn "+turn+": "+player1.getName());
-            if(attack(player1Attacker, player2Defender, 1)){
+            if(attack(player1, player1Attacker, player2Defender, 1)){
                 player2Copy.getArmy().remove(player2Defender);
                 if(player2Attacker == player2Defender) player2Attacker = null;
                 player2Defender = null;
@@ -64,7 +64,7 @@ public class Combat {
                 if (player2Attacker == null) player2Attacker = getNextAttacker(player2Copy.getArmy());
                 if (player2Defender == null) player2Defender = getNextDefender(player2Copy.getArmy());
 
-                if(attack(player1Attacker, player2Defender, 0.2f)){
+                if(attack(player1, player1Attacker, player2Defender, 0.2f)){
                     player2Copy.getArmy().remove(player2Defender);
                     if(player2Attacker == player2Defender) player2Attacker = null;
                     player2Defender = null;
@@ -76,7 +76,7 @@ public class Combat {
 
             //// Player2's turn
             System.out.println("Turn "+turn+": "+player2.getName());
-            if(attack(player2Attacker, player1Defender, 1)){
+            if(attack(player2,player2Attacker, player1Defender, 1)){
                 player1Copy.getArmy().remove(player1Defender);
                 if(player1Attacker == player1Defender) player1Attacker = null;
                 player1Defender = null;
@@ -85,7 +85,7 @@ public class Combat {
                 if (player1Attacker == null) player1Attacker = getNextAttacker(player1Copy.getArmy());
                 if (player1Defender == null) player1Defender = getNextDefender(player1Copy.getArmy());
 
-                if(attack(player2Attacker, player1Defender, 0.2f)){
+                if(attack(player2,player2Attacker, player1Defender, 0.2f)){
                     player1Copy.getArmy().remove(player1Defender);
                     if(player1Attacker == player1Defender) player1Attacker = null;
                     player1Defender = null;
@@ -117,10 +117,18 @@ public class Combat {
         System.out.println(player2.getName()+" XP: "+player2.getXp()+" GoldCoins: "+player2.getGoldCoins());
     }
 
-    private boolean attack(Character attacker, Character defender, float attackPower){
+    private boolean attack(Player attckingPlayer, Character attacker, Character defender, float attackPower){
         System.out.println(attacker.getName()+" attacks "+defender.getName());
-        float damage = (attackPower*0.5f*attacker.getAttack() - 0.1f* defender.getDefence());
-        defender.changeHealth(-damage);
+
+        if(attacker.getType().equals("Healer")){
+            //If the attacker is a Healer, increase the health of the character in his own army with the lowest heath by 10% of the attack value of the healer.
+            getLowestHealthCharacter(attckingPlayer.getArmy()).changeHealth(0.1f*attacker.getAttack());
+        }
+        else{
+            float damage = (attackPower*0.5f*attacker.getAttack() - 0.1f* defender.getDefence());
+            defender.changeHealth(-damage);
+        }
+
         System.out.println(defender.getName()+"'s Health: "+defender.getHealth());
         System.out.println(attacker.getName()+"'s Health: "+attacker.getHealth());
         if(defender.getHealth()==0){
@@ -150,5 +158,14 @@ public class Combat {
             }
         }
         return nextDefender;
+    }
+    private Character getLowestHealthCharacter(List<Character> army){
+        Character lowestHealthCharacter = army.getFirst();
+        for (Character character: army){
+            if(lowestHealthCharacter.getHealth() > character.getHealth()){
+                lowestHealthCharacter = character;
+            }
+        }
+        return lowestHealthCharacter;
     }
 }
