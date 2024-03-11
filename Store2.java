@@ -207,7 +207,7 @@ public class Store2 {
         return artefacts.get(Integer.parseInt(userInput)-1);
     }
 
-    public void showCharacters(){
+    public Character showCharacters(){
         Scanner scanner = new Scanner(System.in);
         String userInput;
         while(true) {
@@ -226,23 +226,20 @@ public class Store2 {
 
         switch (userInput){
             case "1":
-                showArchers();
-                break;
+                return showArchers();
             case "2":
-                showKnights();
-                break;
+                return showKnights();
             case "3":
-                showMages();
-                break;
+                return showMages();
             case "4":
-                showHealers();
-                break;
+                return showHealers();
             case "5":
-                showMythicalCreatures();
-                break;
+                return showMythicalCreatures();
         }
 
+        return null;
     }
+
 
 
 
