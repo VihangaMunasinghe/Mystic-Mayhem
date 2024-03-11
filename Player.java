@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.Scanner;
 
-public class Player{
+public class Player implements Cloneable{
     private int userId;
     private String name;
     private String userName;
@@ -58,8 +58,8 @@ public class Player{
         goldCoins = goldCoins + x;
     }
 
-    public void getArmy(){
-
+    public List<Character> getArmy(){
+        return army;
     }
 
     public HomeGround getHomeground() {
@@ -82,5 +82,7 @@ public class Player{
 
     }
 
-
+    public Player clone() throws CloneNotSupportedException {
+        return (Player) super.clone();
+    }
 }

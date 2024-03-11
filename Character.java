@@ -1,6 +1,6 @@
 import javax.lang.model.element.Name;
 
-class Character {
+class Character implements Cloneable{
     private final String name;
     private final String type;
     private final String category;
@@ -30,7 +30,7 @@ class Character {
     }
 
     public void buyArmours(Player currentPlayer) {
-        Store store = new Store();
+        Store store = Store.getInstance();
         Equipment newArmour = store.showArmour();
         if(newArmour==currentArmour){
             System.out.println("Already Taken");
@@ -40,6 +40,7 @@ class Character {
             int goldCoins = currentPlayer.getGoldCoins();
             if (goldCoins >= armorPrice) {
                 currentPlayer.updateGoldCoins(-armorPrice);
+                updateCharacter(currentArmour,newArmour);
                 currentArmour = newArmour;
                 System.out.println(name + " purchased armor for " + armorPrice + " gold coins.");
             }
@@ -48,8 +49,9 @@ class Character {
                 System.out.println("Insufficient gold coins to buy armor.");
             }
         }}
+
     public void buyArtefacts(Player currentPlayer) {
-        Store store = new Store();
+        Store store = Store.getInstance();
         Equipment newArtefact = store.showArmour();
         if(newArtefact==currentArtefact){
             System.out.println("Already Taken");
@@ -59,6 +61,7 @@ class Character {
             int goldCoins = currentPlayer.getGoldCoins();
             if (goldCoins >= artefactPrice) {
                 currentPlayer.updateGoldCoins(-artefactPrice);
+                updateCharacter(currentArtefact,newArtefact);
                 currentArtefact = newArtefact;
                 System.out.println(name + " purchased artefact for " + artefactPrice + " gold coins.");
             }
@@ -68,7 +71,18 @@ class Character {
             }
         }
     }
-
+    private void updateCharacter(Equipment currentEquipment, Equipment newEquipment) {
+        if (currentEquipment != null) {
+            changeAttack(-currentEquipment.getAttack());
+            changeSpeed(-currentEquipment.getSpeed());
+            changeHealth(-currentEquipment.getHealth());
+            changeDefence(-currentEquipment.getDefence());
+        }
+        changeAttack(newEquipment.getAttack());
+        changeSpeed(newEquipment.getSpeed());
+        changeHealth(newEquipment.getHealth());
+        changeDefence(newEquipment.getDefence());
+    }
     public void showDetails(){
         System.out.println("Name: " + name);
         System.out.println("Type: " + type);
@@ -135,5 +149,9 @@ class Character {
         if(health<0f){
             health = 0f;
         }
+    }
+
+    public Character clone() throws CloneNotSupportedException {
+        return (Character) super.clone();
     }
 }

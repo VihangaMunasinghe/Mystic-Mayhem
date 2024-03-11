@@ -99,18 +99,18 @@ public class Store {
     }
 
     public void setArmour(){
-        Equipment chainmail = new Equipment("Chainmail",70,0,1,0,-1);
-        Equipment regalia = new Equipment("Regalia",105,0,1,0,0);
-        Equipment fleece = new Equipment("Fleece",150,0,2,1,-1);
+        Equipment chainmail = new Equipment("Chainmail","Armour", 70,0,1,0,-1);
+        Equipment regalia = new Equipment("Regalia","Armour" ,105,0,1,0,0);
+        Equipment fleece = new Equipment("Fleece","Armour" ,150,0,2,1,-1);
         armour.add(chainmail);
         armour.add(regalia);
         armour.add(fleece);
     }
 
     public void setArtefacts(){
-        Equipment excalibur = new Equipment("Excalibur",150,2,0,0,0);
-        Equipment amulet = new Equipment("Amulet",200,1,-1,1,1);
-        Equipment crystal = new Equipment("Crystal",210,2,1,-1,-1);
+        Equipment excalibur = new Equipment("Excalibur","Artefact" ,150,2,0,0,0);
+        Equipment amulet = new Equipment("Amulet","Artefact" ,200,1,-1,1,1);
+        Equipment crystal = new Equipment("Crystal","Artefact" ,210,2,1,-1,-1);
         artefacts.add(excalibur);
         artefacts.add(amulet);
         artefacts.add(crystal);
@@ -191,7 +191,12 @@ public class Store {
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
         scanner.close();
-        return armour.get(Integer.parseInt(userInput)-1);
+        try {
+            return armour.get(Integer.parseInt(userInput)-1).clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Err: Armour cloning failed!");
+        }
+        return null;
     }
 
     public Equipment showArtefacts() {
@@ -204,7 +209,12 @@ public class Store {
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
         scanner.close();
-        return artefacts.get(Integer.parseInt(userInput)-1);
+        try {
+            return artefacts.get(Integer.parseInt(userInput)-1).clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Err: Artefact cloning failed!");
+        }
+        return null;
     }
 
     public Character showCharacters(){
@@ -223,24 +233,23 @@ public class Store {
                 System.out.println("Please enter a valid input");
             }
         }
-
-        switch (userInput){
-            case "1":
-                return showArchers();
-            case "2":
-                return showKnights();
-            case "3":
-                return showMages();
-            case "4":
-                return showHealers();
-            case "5":
-                return showMythicalCreatures();
+        try{
+            switch (userInput){
+                case "1":
+                    return showArchers().clone();
+                case "2":
+                    return showKnights().clone();
+                case "3":
+                    return showMages().clone();
+                case "4":
+                    return showHealers().clone();
+                case "5":
+                    return showMythicalCreatures().clone();
+            }
         }
-
+        catch (Exception ex){
+            System.out.println("Err: Character cloning failed!");
+        }
         return null;
     }
-
-
-
-
 }
