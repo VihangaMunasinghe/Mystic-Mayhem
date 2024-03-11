@@ -1,18 +1,20 @@
+import javax.lang.model.element.Name;
+
 class Character {
-    private String name;
-    private String type;
-    private String category;
-    private int price;
-    private int currentValue;
+    private final String name;
+    private final String type;
+    private final String category;
+    private final int price;
+    private final int currentValue;
     private int attack;
-    private int defense;
-    private int health;
+    private int defence;
+    private float health;
     private int speed;
     private Equipment currentArmour;
     private Equipment currentArtefact;
 
     public Character(String name, String type, String category, int price,
-                     int attack, int defense, int health, int speed,Equipment currentArmour,
+                     int attack, int defence, int health, int speed, Equipment currentArmour,
                      Equipment currentArtefact) {
         this.name = name;
         this.type = type;
@@ -20,7 +22,7 @@ class Character {
         this.price = price;
         this.currentValue = price;
         this.attack = attack;
-        this.defense = defense;
+        this.defence = defence;
         this.health = health;
         this.speed = speed;
         this.currentArmour=currentArmour;
@@ -29,7 +31,7 @@ class Character {
 
     public void buyArmours(Player currentPlayer) {
         Store store = new Store();
-        Equipment newArmour =store.showArmour();
+        Equipment newArmour = store.showArmour();
         if(newArmour==currentArmour){
             System.out.println("Already Taken");
         }
@@ -48,7 +50,7 @@ class Character {
         }}
     public void buyArtefacts(Player currentPlayer) {
         Store store = new Store();
-        Equipment newArtefact =store.showArmour();
+        Equipment newArtefact = store.showArmour();
         if(newArtefact==currentArtefact){
             System.out.println("Already Taken");
         }
@@ -62,13 +64,24 @@ class Character {
             }
             else
             {
-                System.out.println("Insufficient gold coins to buy armor.");
+                System.out.println("Insufficient gold coins to buy armour.");
             }
-        }}
+        }
+    }
+
+    public void showDetails(){
+        System.out.println("Name: " + name);
+        System.out.println("Type: " + type);
+        System.out.println("Category: " + category);
+        System.out.println("Speed: " + speed);
+        System.out.println("Health: " + health);
+        System.out.println("Attack: " + attack);
+        System.out.println("Defence: " + defence);
+        System.out.println("Price: " + price);
+    }
     public String getName() {
         return name;
     }
-
     public String getType() {
         return type;
     }
@@ -89,11 +102,11 @@ class Character {
         return attack;
     }
 
-    public int getDefense() {
-        return defense;
+    public int getDefence() {
+        return defence;
     }
 
-    public int getHealth() {
+    public float getHealth() {
         return health;
     }
 
@@ -115,13 +128,12 @@ class Character {
         this.attack+=amount;
     }
     public void changeDefence(int amount){
-        this.defense+=amount;
+        this.defence +=amount;
     }
-    public void changeHealth(int amount){
+    public void changeHealth(float amount){
         this.health+=amount;
+        if(health<0f){
+            health = 0f;
+        }
     }
 }
-
-
-
-
