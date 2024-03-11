@@ -22,7 +22,7 @@ public class Store {
     List<Equipment> armour = new ArrayList<>();
     List<Equipment> artefacts = new ArrayList<>();
 
-    //constructor to set the values
+    //constructor to set the valuess
     public Store(){
         setArchers();
         setArmour();
