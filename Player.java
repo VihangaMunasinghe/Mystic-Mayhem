@@ -1,7 +1,8 @@
 import java.util.List;
 import java.util.Scanner;
+import java.io.*;
 
-public class Player implements Cloneable{
+public class Player implements Serializable,Cloneable{
     private int userId;
     private String name;
     private String userName;
@@ -24,9 +25,6 @@ public class Player implements Cloneable{
         this.army = army;
     }
 
-    public void createAccount(){
-
-    }
     public int getUserId(){
         return userId;
     }
@@ -35,8 +33,8 @@ public class Player implements Cloneable{
         return name;
     }
 
-    public void setName(){
-
+    public void setName(String name){
+        this.name = name;
     }
     public String getUserName(){
         return userName;
@@ -62,6 +60,19 @@ public class Player implements Cloneable{
         return army;
     }
 
+    public void showArmy(){
+        System.out.println("Your army: ");
+        System.out.println("1. Sell Character.");
+        System.out.println("2. Buy armour.");
+        System.out.println("3. Back.");
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Select any option");
+        String option = scanner.nextLine();
+
+
+    }
+
     public HomeGround getHomeground() {
         return homeground;
     }
@@ -71,7 +82,31 @@ public class Player implements Cloneable{
     }
 
     public void buyCharacter(){
+        Store store = Store.getInstance();
+        Character newCharacter = store.showCharacters();
 
+        for(Character currentCharacter : army){
+            if(currentCharacter.getType().equals(newCharacter.getType())){
+                if(currentCharacter.getName().equals(newCharacter.getName())){
+                    System.out.println("Already Taken");
+                }
+                else {
+                    if (newCharacter.getCurrentValue() < this.getGoldCoins()){
+                        sellCharacter(currentCharacter);
+                        army.add(newCharacter);
+                        updateGoldCoins(-newCharacter.getCurrentValue());
+                    }
+                    else{
+                        System.out.println("Insufficient gold coins to buy this character.");
+                    }
+                }
+            }
+        }
+    }
+
+    public void sellCharacter(Character character){
+        updateGoldCoins((int)(character.getCurrentValue() * 0.9));
+        army.remove(character);
     }
 
     public void sellCharacter(){
@@ -82,6 +117,9 @@ public class Player implements Cloneable{
 
     }
 
+    public void saveNewUser(){
+        Database.saveNewUser(this);
+    }
     public Player clone() throws CloneNotSupportedException {
         return (Player) super.clone();
     }
