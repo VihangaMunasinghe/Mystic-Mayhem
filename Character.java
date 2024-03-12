@@ -83,6 +83,10 @@ class Character implements Cloneable{
         changeHealth(newEquipment.getHealth());
         changeDefence(newEquipment.getDefence());
     }
+
+    public void showBasicDetails(){
+        System.out.println("Name: " + name + "\t" + "Type: " + type + "\t" + "Armour:" + currentArmour + "\t" + "Artefact:" + currentArtefact);
+    }
     public void showDetails(){
         System.out.println("Name: " + name);
         System.out.println("Type: " + type);

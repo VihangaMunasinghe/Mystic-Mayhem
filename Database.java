@@ -42,6 +42,42 @@ public class Database {
         return false;
     }
 
+    public static boolean updateUser(Player user) {
+        String url = "jdbc:mysql://localhost:3306/mydatabase";
+        String username = "root";
+        String password = "password";
+
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            String query = "UPDATE players SET profile = ? WHERE userId = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+            // Convert user object to byte array
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(user);
+            oos.flush();
+            byte[] userBytes = bos.toByteArray();
+
+            // Set byte array to the prepared statement
+            stmt.setBytes(1, userBytes);
+            stmt.setInt(2, user.getUserId());
+
+            stmt.executeUpdate();
+            stmt.close();
+            conn.close();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Database operation failed!");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Serialization failed!");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }
 
 

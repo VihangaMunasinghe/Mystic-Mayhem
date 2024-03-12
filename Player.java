@@ -60,19 +60,50 @@ public class Player implements Serializable,Cloneable{
         return army;
     }
 
-    public void showArmy(){
+    public void showArmy() {
         System.out.println("Your army: ");
-        System.out.println("1. Sell Character.");
-        System.out.println("2. Buy armour.");
-        System.out.println("3. Back.");
+        for (int i = 0; i < army.size(); i++) {
+            System.out.print(i + ". ");
+            army.get(i).showBasicDetails();
+        }
+        System.out.println("Press 0 to go back");
+        System.out.println("\nSelect option: ");
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Select any option");
-        String option = scanner.nextLine();
+        int option = scanner.nextInt();
+        if (option != 0 && option < army.size()) {
+            army.get(option).showDetails();
+            System.out.println("5. Sell Character.");
+            System.out.println("6. Buy Equipment");
+            System.out.println("Press 0 to go back");
 
+            int option2 = scanner.nextInt();
 
+            switch (option2) {
+                case 5:
+                    sellCharacter(army.get(option));
+                    break;
+                case 6:
+                    System.out.println("7. Buy Armour.");
+                    System.out.println("8. Buy Artefact.");
+                    System.out.println("Press 0 to go back");
+
+                    int option3 = scanner.nextInt();
+                    switch (option3) {
+                        case 7:
+                            army.get(option).buyArmours(this);
+                            break;
+                        case 8:
+                            army.get(option).buyArtefacts(this);
+                            break;
+                        case 0:
+                            break;
+                    }
+                    break;
+            }
+        }
+        scanner.close();
     }
-
     public HomeGround getHomeground() {
         return homeground;
     }
