@@ -22,13 +22,13 @@ public class Player implements Serializable,Cloneable{
     public Player(){
 
     }
-    public Player(int userId, String name, String userName, int xp, int goldCoins, List<Character> army) {
+
+    public Player(int userId, String name, String userName) {
         this.userId = userId;
         this.name = name;
         this.userName = userName;
-        this.xp = xp;
-        this.goldCoins = goldCoins;
-        this.army = army;
+        this.goldCoins = 500;
+        this.xp = 1;
     }
 
     public int getUserId(){
@@ -39,8 +39,15 @@ public class Player implements Serializable,Cloneable{
         return name;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void changeName(){
+        System.out.println("\n** Change Your Name **");
+        System.out.print("Enter the new Name: ");
+        Scanner scanner = new Scanner(System.in);
+        String name = scanner.nextLine();
+        if(!name.equals("")){
+            this.name = name;
+            updateUser();
+        }
     }
     public String getUserName(){
         return userName;
@@ -66,8 +73,8 @@ public class Player implements Serializable,Cloneable{
         return army;
     }
 
-    public void showArmy() {
-        System.out.println("Your army: ");
+    public boolean showArmy() {
+        System.out.println("\nArmy: ");
 
         if(!army.isEmpty()){
 
@@ -75,11 +82,10 @@ public class Player implements Serializable,Cloneable{
                 System.out.print(i+1 + ". ");
                 army.get(i).showBasicDetails();
             }
+            return true;
         }
-        else{
-            System.out.println("Your army is empty! Buy characters to build a army and battle!");
-        }
-
+        System.out.println("Army is Empty!");
+        return false;
     }
     public void showArmyMenu() {
         int option;
@@ -166,6 +172,7 @@ public class Player implements Serializable,Cloneable{
                         army.add(newCharacter);
                         flag = false;
                         updateGoldCoins(-newCharacter.getCurrentValue());
+                        updateUser();
                     }
                     else{
                         System.out.println("Insufficient gold coins to buy this character.");
@@ -177,6 +184,7 @@ public class Player implements Serializable,Cloneable{
         if(flag){
             army.add(newCharacter);
             updateGoldCoins(-newCharacter.getCurrentValue());
+            updateUser();
         }
     }
 
@@ -202,6 +210,7 @@ public class Player implements Serializable,Cloneable{
                     if (confirmOption.equals("Y")) {
                         sellCharacter(character);
                     }
+                    updateUser();
                     return;
                 }
             } catch (InputMismatchException ex) {
@@ -212,16 +221,45 @@ public class Player implements Serializable,Cloneable{
     }
 
     public void declareWar(Player opponent){
-
+        Combat combat = new Combat(this, opponent, opponent.getHomeground());
+        combat.fight();
+        this.updateUser(); /// This will save both players data in the file.
     }
-    public Player searchForWar(){
-        return new Player();
-    }
+    public Player searchOpponentForWar(){
+        System.out.println("\nSearch an Opponent");
+        while (true){
+            Player player = Database.getRandomPlayer(this);
+            if(player.army.size()<5) continue;
+            player.showDetails();
+            player.showArmy();
+            System.out.println("Do you want to declare war with "+player.getName()+"?");
+            System.out.println("1. Yes! Attack!!!!\n2. No, next player");
+            System.out.println("Enter 0 to Stop Searching");
+            Scanner scanner = new Scanner(System.in);
+            while(true) {
+                System.out.print("Choice: ");System.out.print("Choice: ");
+                try {
+                    int option = scanner.nextInt();
+                    if(option == 0) return null;
+                    if(option == 1){
+                        this.declareWar(player);
+                        return player;
+                    }
+                    else if(option == 2) break;
+                    else System.out.println("Invalid input! Please enter 1 or 2.");
 
+                } catch (InputMismatchException ex) {
+                    System.out.println("Invalid input! Please enter 1 or 2.");
+                }
+            }
+        }
+    }
     public void saveNewUser(){
-        Database.saveNewUser(this);
+        Database.saveNewPlayer(this);
     }
-
+    public void updateUser(){
+        Database.updatePlayers();
+    }
     public void showDetails(){
         System.out.println("\n** Player Details **");
         System.out.println("Name: "+name);

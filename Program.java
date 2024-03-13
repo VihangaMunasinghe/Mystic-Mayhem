@@ -8,7 +8,9 @@ public class Program {
         while (true){
             if(currentPlayer == null){
                 createOrLoadPlayer();
-                currentPlayer.showDetails();
+                if(currentPlayer != null) {
+                    currentPlayer.showDetails();
+                }
             }
             if(currentPlayer != null){
                 showPlayerMenu();
@@ -68,7 +70,7 @@ public class Program {
                 currentPlayer.sellCharacter();
                 break;
             } else if (choice == 5) {
-                Player opponent = currentPlayer.searchForWar();
+                Player opponent = currentPlayer.searchOpponentForWar();
                 if (opponent != null) {
                     currentPlayer.declareWar(opponent);
                 }
