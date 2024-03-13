@@ -123,6 +123,7 @@ public class Player implements Serializable,Cloneable{
     public void buyCharacter(){
         Store store = Store.getInstance();
         Character newCharacter = store.showCharacters();
+        boolean flag = true;
 
         for(Character currentCharacter : army){
             if(currentCharacter.getType().equals(newCharacter.getType())){
@@ -133,6 +134,7 @@ public class Player implements Serializable,Cloneable{
                     if (newCharacter.getCurrentValue() < this.getGoldCoins()){
                         sellCharacter(currentCharacter);
                         army.add(newCharacter);
+                        flag = false;
                         updateGoldCoins(-newCharacter.getCurrentValue());
                     }
                     else{
@@ -140,6 +142,11 @@ public class Player implements Serializable,Cloneable{
                     }
                 }
             }
+        }
+
+        if(flag){
+            army.add(newCharacter);
+            updateGoldCoins(-newCharacter.getCurrentValue());
         }
     }
 
