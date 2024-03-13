@@ -81,39 +81,64 @@ public class Player implements Serializable,Cloneable{
         }
 
     }
-    public void showArmyMenu(){
-        System.out.println("Enter 0 to go back");
-        System.out.println("Enter your choice");
-        System.out.print("Choice: ");
+    public void showArmyMenu() {
+        int option;
         Scanner scanner = new Scanner(System.in);
-        int option = scanner.nextInt();
+        while (true) {
+            System.out.println("Enter 0 to go back");
+            System.out.println("Enter your choice");
+            System.out.print("Choice: ");
+            option = scanner.nextInt();
 
-        if(option == 0) return;
+            if (option == 0) {
+                return;
+            } else if (option>0 && option <= army.size()) {
+                break;
+            } else {
+                System.out.println("Invalid Input. Enter a correct input.");
+            }
+        }
         if (option <= army.size()) {
-            army.get(option-1).showDetails();
+            army.get(option - 1).showDetails();
             System.out.println("1. Sell Character.");
             System.out.println("2. Buy Armour");
-            System.out.println("2. Buy Artefact");
+            System.out.println("3. Buy Artefact");
             System.out.println("Press 0 to go back");
             System.out.print("Choice: ");
-
-            int option2 = scanner.nextInt();
-
-            switch (option2) {
-                case 1:
-                    Character character = army.get(option - 1);
-                    System.out.println("Are you sure you want to sell " + character.getName() + "? \n Y:Yes\nN:No");
-                    String confirmOption = scanner.nextLine();
-                    if (confirmOption.equals("Y")) {
-                        sellCharacter(character);
+            String option2;
+            while (true) {
+                option2 = scanner.nextLine();
+                if (option2 == "1" || option2 == "2" || option2 == "3") {
+                    switch (option2) {
+                        case "1":
+                            Character character = army.get(option - 1);
+                            System.out.println("Are you sure you want to sell " + character.getName() + "? \n Y:Yes\nN:No");
+                            while (true) {
+                                System.out.print("Choice: ");
+                                String confirmOption = scanner.nextLine();
+                                if (confirmOption.equals("Y")) {
+                                    sellCharacter(character);
+                                    break;
+                                } else if (confirmOption.equals("N")) {
+                                    break;
+                                } else {
+                                    System.out.println("Invalid Input. Enter a correct input.");
+                                }
+                            }
+                            break;
+                        case "2":
+                            army.get(option).buyArmours(this);
+                            break;
+                        case "3":
+                            army.get(option).buyArtefacts(this);
+                            break;
+                        default:
+                            System.out.println();
                     }
                     break;
-                case 2:
-                    army.get(option).buyArmours(this);
-                    break;
-                case 3:
-                    army.get(option).buyArtefacts(this);
-                    break;
+                } else {
+                    System.out.println("Invalid Input. Enter a correct input.");
+                }
             }
         }
     }
