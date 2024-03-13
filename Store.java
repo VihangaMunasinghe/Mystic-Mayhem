@@ -239,15 +239,15 @@ public class Store {
         try{
             switch (userInput){
                 case "1":
-                    return showArchers().clone();
+                    return showArchers();
                 case "2":
-                    return showKnights().clone();
+                    return showKnights();
                 case "3":
-                    return showMages().clone();
+                    return showMages();
                 case "4":
-                    return showHealers().clone();
+                    return showHealers();
                 case "5":
-                    return showMythicalCreatures().clone();
+                    return showMythicalCreatures();
             }
         }
         catch (Exception ex){

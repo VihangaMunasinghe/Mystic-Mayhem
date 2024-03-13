@@ -208,7 +208,7 @@ public class Player implements Serializable,Cloneable{
             System.out.println("Enter 0 to Stop Searching");
             Scanner scanner = new Scanner(System.in);
             while(true) {
-                System.out.print("Choice: ");System.out.print("Choice: ");
+                System.out.print("Choice: ");
                 try {
                     int option = scanner.nextInt();
                     if(option == 0) return null;
