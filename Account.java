@@ -1,23 +1,45 @@
+import java.sql.*;
 import java.util.Scanner;
 public class Account {
     private static int noOfPlayers = 0;
-    public static Player createAccount(){
+    public static Player createAccount() {
+        String url = "jdbc:mysql://localhost/mysticmayhem";
+        String username = "root";
+        String password = "";
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the name: ");
         String name = scanner.nextLine();
 
-        System.out.println("Enter the username: ");
-        String userName = scanner.nextLine();
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            String query = "SELECT * FROM userID WHERE userName=? ";
 
-        scanner.close();
-        //Should check whether the username is taken. If taken ask the user to enter a different one
-        if(true){
-            int userId = noOfPlayers++;
-            Player player = new Player();
+            boolean userNameAvailable = false;
+            while(!userNameAvailable){
+                System.out.println("Enter the username: ");
+                String userName = scanner.nextLine();
 
-            return player;
+                PreparedStatement stmt = conn.prepareStatement(query);
+                stmt.setString(1, userName);
+                ResultSet result = stmt.executeQuery();
+
+                if (!result.next()) {
+                    userNameAvailable = true;
+                    // Create the player account here
+                    Player player = new Player(userName, name);
+                    Database.saveNewUser(player);
+                    return player;
+                } else {
+                    System.out.println("User name is already taken. Enter a new one.");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Database operation failed!");
+            e.printStackTrace();
         }
         return null;
     }
+
 }
