@@ -3,7 +3,10 @@ import java.util.List;
 public class Hillcrest extends HomeGround{
     private static Hillcrest instance = null;
     private Hillcrest(){
-        super("Hillcrest");
+        super("Hillcrest", "In Hillcrest, the attack and defence of highlanders increase by 1 \n" +
+                                            "while the speed of marshlanders and sunchildren decrease by 1.\n" +
+                                            "When attacking in Hillcrest, each highlander can follow each of their \n" +
+                                            "turns with a bonus turn with 20% of their attack power.");
     }
 
     public static Hillcrest getInstance() {

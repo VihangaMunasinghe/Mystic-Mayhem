@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.io.*;
@@ -8,10 +10,9 @@ public class Player implements Serializable,Cloneable{
     private String userName;
     private int xp;
     private int goldCoins;
-    private static int noOfPlayers = 0;
     private HomeGround homeground;
 
-    private List<Character> army;
+    private List<Character> army = new ArrayList<>();
 
     public Player(String name, String userName) {
         this.name = name;
@@ -38,8 +39,15 @@ public class Player implements Serializable,Cloneable{
         return name;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void changeName(){
+        System.out.println("\n** Change Your Name **");
+        System.out.print("Enter the new Name: ");
+        Scanner scanner = new Scanner(System.in);
+        String name = scanner.nextLine();
+        if(!name.equals("")){
+            this.name = name;
+            updateUser();
+        }
     }
     public String getUserName(){
         return userName;
@@ -65,49 +73,55 @@ public class Player implements Serializable,Cloneable{
         return army;
     }
 
-    public void showArmy() {
-        System.out.println("Your army: ");
-        for (int i = 0; i < army.size(); i++) {
-            System.out.print(i + ". ");
-            army.get(i).showBasicDetails();
-        }
-        System.out.println("Press 0 to go back");
-        System.out.println("\nSelect option: ");
+    public boolean showArmy() {
+        System.out.println("\nArmy: ");
 
+        if(!army.isEmpty()){
+
+            for (int i = 0; i < army.size(); i++) {
+                System.out.print(i+1 + ". ");
+                army.get(i).showBasicDetails();
+            }
+            return true;
+        }
+        System.out.println("Army is Empty!");
+        return false;
+    }
+    public void showArmyMenu(){
+        System.out.println("Enter your choice");
+        System.out.println("Enter 0 to go back");
+        System.out.print("Choice: ");
         Scanner scanner = new Scanner(System.in);
         int option = scanner.nextInt();
-        if (option != 0 && option < army.size()) {
-            army.get(option).showDetails();
-            System.out.println("5. Sell Character.");
-            System.out.println("6. Buy Equipment");
+
+        if(option == 0) return;
+        if (option <= army.size()) {
+            army.get(option-1).showDetails();
+            System.out.println("1. Sell Character.");
+            System.out.println("2. Buy Armour");
+            System.out.println("2. Buy Artefact");
             System.out.println("Press 0 to go back");
+            System.out.print("Choice: ");
 
             int option2 = scanner.nextInt();
 
             switch (option2) {
-                case 5:
-                    sellCharacter(army.get(option));
-                    break;
-                case 6:
-                    System.out.println("7. Buy Armour.");
-                    System.out.println("8. Buy Artefact.");
-                    System.out.println("Press 0 to go back");
-
-                    int option3 = scanner.nextInt();
-                    switch (option3) {
-                        case 7:
-                            army.get(option).buyArmours(this);
-                            break;
-                        case 8:
-                            army.get(option).buyArtefacts(this);
-                            break;
-                        case 0:
-                            break;
+                case 1:
+                    Character character = army.get(option - 1);
+                    System.out.println("Are you sure you want to sell " + character.getName() + "? \n Y:Yes\nN:No");
+                    String confirmOption = scanner.nextLine();
+                    if (confirmOption.equals("Y")) {
+                        sellCharacter(character);
                     }
+                    break;
+                case 2:
+                    army.get(option).buyArmours(this);
+                    break;
+                case 3:
+                    army.get(option).buyArtefacts(this);
                     break;
             }
         }
-        scanner.close();
     }
     public HomeGround getHomeground() {
         return homeground;
@@ -133,6 +147,7 @@ public class Player implements Serializable,Cloneable{
                         army.add(newCharacter);
                         flag = false;
                         updateGoldCoins(-newCharacter.getCurrentValue());
+                        updateUser();
                     }
                     else{
                         System.out.println("Insufficient gold coins to buy this character.");
@@ -144,6 +159,7 @@ public class Player implements Serializable,Cloneable{
         if(flag){
             army.add(newCharacter);
             updateGoldCoins(-newCharacter.getCurrentValue());
+            updateUser();
         }
     }
 
@@ -153,15 +169,80 @@ public class Player implements Serializable,Cloneable{
     }
 
     public void sellCharacter(){
+        showArmy();
+        System.out.println("Enter the index of the character you want to sell");
+        System.out.println("Press 0 to go back");
+        while(true) {
+            System.out.print("Choice: ");
+            Scanner scanner = new Scanner(System.in);
+            try {
+                int option = scanner.nextInt();
+                if (option == 0) return;
+                if (0 < option && option <= army.size()) {
+                    Character character = army.get(option - 1);
+                    System.out.println("Are you sure you want to sell " + character.getName() + "? \n Y:Yes\nN:No");
+                    String confirmOption = scanner.nextLine();
+                    if (confirmOption.equals("Y")) {
+                        sellCharacter(character);
+                    }
+                    updateUser();
+                    return;
+                }
+            } catch (InputMismatchException ex) {
+                System.out.println("Invalid input! Please enter a integer value.");
+            }
+        }
 
     }
 
-    public void declareWar(){
-
+    public void declareWar(Player opponent){
+        Combat combat = new Combat(this, opponent, opponent.getHomeground());
+        combat.fight();
+        this.updateUser();
+        opponent.updateUser();
     }
+    public Player searchForWar(){
+        System.out.println("\nSearch an Opponent");
+        while (true){
+            Player player = Database.getRandomPlayer(this);
+            if(player.army.size()<5) continue;
+            player.showDetails();
+            player.showArmy();
+            System.out.println("Do you want to declare war with "+player.getName()+"?");
+            System.out.println("1. Yes! Attack!!!!\n2. No, next player");
+            System.out.println("Enter 0 to Stop Searching");
+            Scanner scanner = new Scanner(System.in);
+            while(true) {
+                System.out.print("Choice: ");System.out.print("Choice: ");
+                try {
+                    int option = scanner.nextInt();
+                    if(option == 0) return null;
+                    if(option == 1){
+                        this.declareWar(player);
+                        return player;
+                    }
+                    else if(option == 2) break;
+                    else System.out.println("Invalid input! Please enter 1 or 2.");
 
+                } catch (InputMismatchException ex) {
+                    System.out.println("Invalid input! Please enter 1 or 2.");
+                }
+            }
+        }
+    }
     public void saveNewUser(){
         Database.saveNewUser(this);
+    }
+    public void updateUser(){
+        Database.updateUser(this);
+    }
+    public void showDetails(){
+        System.out.println("\n** Player Details **");
+        System.out.println("Name: "+name);
+        System.out.println("User Id:"+userId);
+        System.out.println("Username: "+userName);
+        System.out.println("XP: "+xp);
+        System.out.println("Gold Coins: "+goldCoins);
     }
     public Player clone() throws CloneNotSupportedException {
         return (Player) super.clone();
