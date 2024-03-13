@@ -72,16 +72,15 @@ public class Database {
             return true;
         } catch (SQLException e) {
             System.out.println("Database operation failed!");
+            e.printStackTrace();
         } catch (IOException e) {
             System.out.println("Serialization failed!");
+            e.printStackTrace();
         }
         return false;
     }
 
-    public static Player getRandomPlayer(Player currentPlayer){
-        // Current player is used to check and ensure whether the returning player is not current player.
-        return new Player();
-    }
+
 }
 
 

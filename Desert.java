@@ -3,8 +3,7 @@ import java.util.List;
 public class Desert extends HomeGround{
     private static Desert instance = null;
     private Desert(){
-        super("Marshland", "In Desert, the health of marshlanders decreases by 1 \n" +
-                                            "while the attack of sunchildren increases by 1.");
+        super("Marshland");
     }
 
     public static Desert getInstance() {

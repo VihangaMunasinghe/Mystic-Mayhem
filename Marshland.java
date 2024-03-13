@@ -3,9 +3,7 @@ import java.util.List;
 public class Marshland extends HomeGround{
     private static Marshland instance = null;
     private Marshland(){
-        super("Marshland", "In Marshland, the defence of marshlanders increases by 2 \n" +
-                                            "while the attack of sunchildren decreases by 1.\n" +
-                                            "The speed of mystics also decreases by 1.");
+        super("Marshland");
     }
 
     public static Marshland getInstance() {

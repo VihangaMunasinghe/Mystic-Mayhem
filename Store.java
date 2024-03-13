@@ -125,7 +125,7 @@ public class Store {
         }
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
-        
+        scanner.close();
         return archers.get(Integer.parseInt(userInput)-1);
     }
 
@@ -138,7 +138,7 @@ public class Store {
         }
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
-        
+        scanner.close();
         return knights.get(Integer.parseInt(userInput)-1);
     }
 
@@ -151,7 +151,7 @@ public class Store {
         }
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
-        
+        scanner.close();
         return mages.get(Integer.parseInt(userInput)-1);
     }
 
@@ -164,7 +164,7 @@ public class Store {
         }
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
-        
+        scanner.close();
         return healers.get(Integer.parseInt(userInput)-1);
     }
 
@@ -177,7 +177,7 @@ public class Store {
         }
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
-        
+        scanner.close();
         return mythicalCreatures.get(Integer.parseInt(userInput)-1);
     }
 
@@ -189,9 +189,8 @@ public class Store {
             System.out.println();
         }
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Choice: ");
         String userInput = scanner.nextLine();
-        
+        scanner.close();
         try {
             return armour.get(Integer.parseInt(userInput)-1).clone();
         } catch (CloneNotSupportedException e) {
@@ -208,9 +207,8 @@ public class Store {
             System.out.println();
         }
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Choice: ");
         String userInput = scanner.nextLine();
-        
+        scanner.close();
         try {
             return artefacts.get(Integer.parseInt(userInput)-1).clone();
         } catch (CloneNotSupportedException e) {
@@ -228,7 +226,6 @@ public class Store {
             System.out.println("Enter 3 to see Mages");
             System.out.println("Enter 4 to see Healers");
             System.out.println("Enter 5 to see Mythical Creatures");
-            System.out.print("Choice: ");
             userInput = scanner.nextLine();
             if (userInput.equals("1") || userInput.equals("2") || userInput.equals("3") || userInput.equals("4") || userInput.equals("5")) {
                 break;
