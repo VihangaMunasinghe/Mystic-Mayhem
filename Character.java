@@ -1,4 +1,3 @@
-import javax.lang.model.element.Name;
 
 class Character implements Cloneable{
     private final String name;
@@ -32,7 +31,7 @@ class Character implements Cloneable{
     public void buyArmours(Player currentPlayer) {
         Store store = Store.getInstance();
         Equipment newArmour = store.showArmour();
-        if(newArmour==currentArmour){
+        if(newArmour.getName().equals(currentArmour.getName())){
             System.out.println("Already Taken");
         }
         else{
@@ -53,7 +52,7 @@ class Character implements Cloneable{
     public void buyArtefacts(Player currentPlayer) {
         Store store = Store.getInstance();
         Equipment newArtefact = store.showArmour();
-        if(newArtefact==currentArtefact){
+        if(newArtefact.getName().equals(currentArtefact.getName())){
             System.out.println("Already Taken");
         }
         else{

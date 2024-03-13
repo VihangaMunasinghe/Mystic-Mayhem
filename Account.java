@@ -3,14 +3,13 @@ public class Account {
     private static int noOfPlayers = 0;
     public static Player createAccount(){
         Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter the name: ");
+        System.out.println("---Create New Account ---");
+        System.out.print("Enter the name: ");
         String name = scanner.nextLine();
 
-        System.out.println("Enter the username: ");
+        System.out.print("Enter the username: ");
         String userName = scanner.nextLine();
 
-        scanner.close();
         //Should check whether the username is taken. If taken ask the user to enter a different one
         if(true){
             int userId = noOfPlayers++;
@@ -19,5 +18,9 @@ public class Account {
             return player;
         }
         return null;
+    }
+
+    public static Player logIn(){
+        return new Player();
     }
 }

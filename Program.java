@@ -18,7 +18,9 @@ public class Program {
 
     private static void createOrLoadPlayer(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("----Welcome to Mystic Mayhem----\n");
+        System.out.println("\n****************************************");
+        System.out.println("********Welcome to Mystic Mayhem********");
+        System.out.println("****************************************\n");
         System.out.println("Choose an option");
         System.out.println("1. Create an Account\n2. Use an Existing Account");
         while (true) {
@@ -44,7 +46,7 @@ public class Program {
 
     private static void showPlayerMenu(){
         System.out.println("\n** Menu ** (Choose an option)");
-        System.out.println("1. Show Player Details\n2. Show army\n3. Buy Character\n4. Sell Character\n5. Search for a War\n6. Log out");
+        System.out.println("1. Show Player Details\n2. Show army\n3. Buy Character\n4. Sell Character\n5. Search for a War\n6. Change the HomeGround\n7. Change name\n8. Log out");
         while (true) {
             int choice = 0;
             try{
@@ -52,14 +54,16 @@ public class Program {
                 choice = Integer.parseInt(scanner.nextLine());
             }
             catch (Exception ex){
-                System.out.println(ex.getMessage());
+                System.out.println("Invalid Input. Enter a integer from 1 to 8.");
                 continue;
             }
             if (choice == 1) {
                 currentPlayer.showDetails();
                 break;
             } else if (choice == 2) {
-                currentPlayer.showArmy();
+                if(currentPlayer.showArmy()){
+                    currentPlayer.showArmyMenu();
+                }
                 break;
             } else if (choice == 3) {
                 currentPlayer.buyCharacter();
@@ -74,6 +78,12 @@ public class Program {
                 }
                 break;
             } else if (choice == 6) {
+                currentPlayer.setHomeground(HomeGround.showHomeGrounds());
+                break;
+            } else if (choice == 7) {
+                currentPlayer.changeName();
+                break;
+            }else if (choice == 8) {
                 currentPlayer = null;
                 break;
             } else {
