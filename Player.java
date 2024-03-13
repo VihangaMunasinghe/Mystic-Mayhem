@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.io.*;
 
 public class Player implements Serializable,Cloneable{
@@ -17,13 +14,13 @@ public class Player implements Serializable,Cloneable{
     public Player(){
 
     }
-    public Player(int userId, String name, String userName, int xp, int goldCoins, List<Character> army) {
+
+    public Player(int userId, String name, String userName) {
         this.userId = userId;
         this.name = name;
         this.userName = userName;
-        this.xp = xp;
-        this.goldCoins = goldCoins;
-        this.army = army;
+        this.goldCoins = 500;
+        this.xp = 1;
     }
 
     public int getUserId(){
@@ -36,12 +33,18 @@ public class Player implements Serializable,Cloneable{
 
     public void changeName(){
         System.out.println("\n** Change Your Name **");
-        System.out.print("Enter the new Name: ");
-        Scanner scanner = new Scanner(System.in);
-        String name = scanner.nextLine();
-        if(!name.equals("")){
-            this.name = name;
-            updateUser();
+        while(true) {
+            System.out.print("Enter the new Name: ");
+            Scanner scanner = new Scanner(System.in);
+            String name = scanner.nextLine();
+            if (!name.isEmpty()) {
+                this.name = name;
+                updateUser();
+                break;
+            }
+            else{
+                System.out.print("Name cannot be empty.");
+            }
         }
     }
     public String getUserName(){
@@ -82,39 +85,62 @@ public class Player implements Serializable,Cloneable{
         System.out.println("Army is Empty!");
         return false;
     }
-    public void showArmyMenu(){
-        System.out.println("Enter your choice");
-        System.out.println("Enter 0 to go back");
-        System.out.print("Choice: ");
+    public void showArmyMenu() {
+        int option;
         Scanner scanner = new Scanner(System.in);
-        int option = scanner.nextInt();
-
-        if(option == 0) return;
-        if (option <= army.size()) {
-            army.get(option-1).showDetails();
-            System.out.println("1. Sell Character.");
-            System.out.println("2. Buy Armour");
-            System.out.println("2. Buy Artefact");
-            System.out.println("Press 0 to go back");
+        while (true) {
+            System.out.println("Enter 0 to go back");
+            System.out.println("Enter your choice");
             System.out.print("Choice: ");
+            option = scanner.nextInt();
 
-            int option2 = scanner.nextInt();
-
-            switch (option2) {
-                case 1:
-                    Character character = army.get(option - 1);
-                    System.out.println("Are you sure you want to sell " + character.getName() + "? \n Y:Yes\nN:No");
-                    String confirmOption = scanner.nextLine();
-                    if (confirmOption.equals("Y")) {
-                        sellCharacter(character);
-                    }
-                    break;
-                case 2:
-                    army.get(option).buyArmours(this);
-                    break;
-                case 3:
-                    army.get(option).buyArtefacts(this);
-                    break;
+            if (option == 0) {
+                return;
+            } else if (option>0 && option <= army.size()) {
+                break;
+            } else {
+                System.out.println("Invalid Input. Enter a correct input.");
+            }
+        }
+        army.get(option - 1).showDetails();
+        System.out.println("1. Sell Character.");
+        System.out.println("2. Buy Armour");
+        System.out.println("3. Buy Artefact");
+        System.out.println("Press 0 to go back");
+        System.out.print("Choice: ");
+        String option2;
+        while (true) {
+            option2 = scanner.nextLine();
+            if (Objects.equals(option2, "1") || Objects.equals(option2, "2") || Objects.equals(option2, "3")) {
+                switch (option2) {
+                    case "1":
+                        Character character = army.get(option - 1);
+                        System.out.println("Are you sure you want to sell " + character.getName() + "? \n Y:Yes\nN:No");
+                        while (true) {
+                            System.out.print("Choice: ");
+                            String confirmOption = scanner.nextLine();
+                            if (confirmOption.equals("Y")) {
+                                sellCharacter(character);
+                                break;
+                            } else if (confirmOption.equals("N")) {
+                                break;
+                            } else {
+                                System.out.println("Invalid Input. Enter a correct input.");
+                            }
+                        }
+                        break;
+                    case "2":
+                        army.get(option).buyArmours(this);
+                        break;
+                    case "3":
+                        army.get(option).buyArtefacts(this);
+                        break;
+                    default:
+                        System.out.println();
+                }
+                break;
+            } else {
+                System.out.println("Invalid Input. Enter a correct input.");
             }
         }
     }
@@ -193,10 +219,9 @@ public class Player implements Serializable,Cloneable{
     public void declareWar(Player opponent){
         Combat combat = new Combat(this, opponent, opponent.getHomeground());
         combat.fight();
-        this.updateUser();
-        opponent.updateUser();
+        this.updateUser(); /// This will save both players data in the file.
     }
-    public Player searchForWar(){
+    public Player searchOpponentForWar(){
         System.out.println("\nSearch an Opponent");
         while (true){
             Player player = Database.getRandomPlayer(this);
@@ -208,7 +233,7 @@ public class Player implements Serializable,Cloneable{
             System.out.println("Enter 0 to Stop Searching");
             Scanner scanner = new Scanner(System.in);
             while(true) {
-                System.out.print("Choice: ");
+                System.out.print("Choice: ");System.out.print("Choice: ");
                 try {
                     int option = scanner.nextInt();
                     if(option == 0) return null;
@@ -226,10 +251,10 @@ public class Player implements Serializable,Cloneable{
         }
     }
     public void saveNewUser(){
-        Database.saveNewUser(this);
+        Database.saveNewPlayer(this);
     }
     public void updateUser(){
-        Database.updateUser(this);
+        Database.updatePlayers();
     }
     public void showDetails(){
         System.out.println("\n** Player Details **");

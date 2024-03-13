@@ -1,26 +1,48 @@
 import java.util.Scanner;
 public class Account {
-    private static int noOfPlayers = 0;
     public static Player createAccount(){
+        String userName,name;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("---Create New Account ---");
-        System.out.print("Enter the name: ");
-        String name = scanner.nextLine();
+        System.out.println("* Create New Account *");
 
-        System.out.print("Enter the username: ");
-        String userName = scanner.nextLine();
+        while(true) {
+            System.out.print("Enter the name: ");
+            name = scanner.nextLine();
 
-        //Should check whether the username is taken. If taken ask the user to enter a different one
-        if(true){
-            int userId = noOfPlayers++;
-            Player player = new Player();
-
-            return player;
+            if(!name.isEmpty())
+                break;
+            else
+                System.out.println("Name cannot be empty");
         }
-        return null;
+
+
+        while(true) {
+            while(true) {
+                System.out.print("Enter the username: ");
+                userName = scanner.nextLine();
+
+                if(!userName.isEmpty())
+                    break;
+                else
+                    System.out.println("Username cannot be empty");
+            }
+            if (Database.isUserNameAvailable(userName)) {
+                int userId = Database.getNextUserId();
+                Player player = new Player(userId, name, userName);
+                player.saveNewUser();
+                return player;
+            }
+            else {
+                System.out.println("Username is not available. Enter new username.");
+            }
+        }
     }
 
     public static Player logIn(){
-        return new Player();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("**Login to your Account**");
+        System.out.print("Enter the username: ");
+        String userName = scanner.nextLine();
+        return Database.getPlayer(userName);
     }
 }
