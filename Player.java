@@ -14,6 +14,11 @@ public class Player implements Serializable,Cloneable{
 
     private List<Character> army = new ArrayList<>();
 
+    public Player(String name, String userName) {
+        this.name = name;
+        this.userName = userName;
+    }
+
     public Player(){
 
     }

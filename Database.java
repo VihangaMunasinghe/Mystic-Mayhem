@@ -8,15 +8,16 @@ import java.io.ObjectOutputStream;
 
 public class Database {
     public static boolean saveNewUser(Player user) {
-        String url = "jdbc:mysql://localhost:3306/mydatabase";
+        String url = "jdbc:mysql://localhost/mysticmayhem";
         String username = "root";
-        String password = "password";
+        String password = "";
 
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
-            String query = "INSERT INTO players (userId, profile) VALUES (?, ?)";
+            String query = "INSERT INTO players (userId, userName, profile) VALUES (?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, user.getUserId());
+            stmt.setString(2, user.getUserName());
 
             // Convert user object to byte array
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -26,7 +27,7 @@ public class Database {
             byte[] userBytes = bos.toByteArray();
 
             // Set byte array to the prepared statement
-            stmt.setBytes(2, userBytes);
+            stmt.setBytes(3, userBytes);
 
             stmt.executeUpdate();
             stmt.close();
@@ -43,14 +44,16 @@ public class Database {
     }
 
     public static boolean updateUser(Player user) {
-        String url = "jdbc:mysql://localhost:3306/mydatabase";
+        String url = "jdbc:mysql://localhost/mysticmayhem";
         String username = "root";
         String password = "password";
 
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
-            String query = "UPDATE players SET profile = ? WHERE userId = ?";
+            String query = "UPDATE players SET userName = ?, profile = ? WHERE userId = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
+
+            stmt.setString(1, user.getUserName());
 
             // Convert user object to byte array
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -60,8 +63,8 @@ public class Database {
             byte[] userBytes = bos.toByteArray();
 
             // Set byte array to the prepared statement
-            stmt.setBytes(1, userBytes);
-            stmt.setInt(2, user.getUserId());
+            stmt.setBytes(2, userBytes);
+            stmt.setInt(3, user.getUserId());
 
             stmt.executeUpdate();
             stmt.close();
