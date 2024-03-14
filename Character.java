@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.List;
 
 class Character implements Cloneable, Serializable {
     private final String name;
@@ -87,7 +88,9 @@ class Character implements Cloneable, Serializable {
     }
 
     public void showBasicDetails(){
-        System.out.println("Name: " + name + "\t" + "Type: " + type + "\t" + "Armour:" + currentArmour + "\t" + "Artefact:" + currentArtefact);
+        String currentArmourName = currentArmour != null? currentArmour.getName() : "Empty";
+        String currentArtefactName = currentArtefact != null? currentArtefact.getName() : "Empty";
+        System.out.println("Name: " + name + "\t" + "Type: " + type + "\t" + "Armour:" + currentArmourName+ "\t" + "Artefact:" + currentArtefactName);
     }
     public void showDetails(){
         System.out.println("Name: " + name);
@@ -165,7 +168,12 @@ class Character implements Cloneable, Serializable {
             currentValue += (int)(currentArtefact.getPrice()*0.2f);
         }
     }
+    public void setArmourAndArtefact(Equipment armour, Equipment artefact){
+        this.currentArmour = armour;
+        this.currentArtefact = artefact;
+    }
     public Character clone() throws CloneNotSupportedException {
         return (Character) super.clone();
     }
+
 }

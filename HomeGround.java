@@ -11,10 +11,10 @@ public abstract class HomeGround implements Serializable {
 
     public static HomeGround showHomeGrounds(){
         System.out.println("\n**Home Grounds** (Choose an option)");
-        System.out.print("1. "); Hillcrest.getInstance().showDetails();
-        System.out.print("2. "); Marshland.getInstance().showDetails();
-        System.out.print("3. "); Desert.getInstance().showDetails();
-        System.out.print("4. "); Arcane.getInstance().showDetails();
+        System.out.print("\n1. "); Hillcrest.getInstance().showDetails();
+        System.out.print("\n2. "); Marshland.getInstance().showDetails();
+        System.out.print("\n3. "); Desert.getInstance().showDetails();
+        System.out.print("\n4. "); Arcane.getInstance().showDetails();
         Scanner scanner = new Scanner(System.in);
         while (true) {
             int choice = 0;

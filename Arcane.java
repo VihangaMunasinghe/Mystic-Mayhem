@@ -19,14 +19,11 @@ public class Arcane extends HomeGround{
     @Override
     public void updateArmy(List<Character> army) {
         for(Character character : army){
-            switch (character.getCategory()) {
-                case "Mystic" :
-                    character.changeAttack(2);
-                    break;
-                case "Highlander", "Marshlander" :
-                    character.changeDefence(-1);
-                    character.changeSpeed(-1);
-                    break;
+            if (character.getCategory().equals("Mystic")) {
+                character.changeAttack(2);
+            } else if (character.getCategory().equals("Highlander") || character.getCategory().equals("Marshlander")) {
+                character.changeDefence(-1);
+                character.changeSpeed(-1);
             }
         }
     }

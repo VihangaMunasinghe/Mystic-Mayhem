@@ -16,6 +16,10 @@ public class Database implements Serializable {
     public static synchronized void getInstance() {
         if (instance == null) {
             loadInstance();
+            if(instance != null && instance.players.isEmpty()){
+                Player defaultPlayer = Player.getDefaultPlayer();
+                saveNewPlayer(defaultPlayer);
+            }
         }
     }
 
@@ -72,7 +76,7 @@ public class Database implements Serializable {
         int size = instance.players.size();
         while (true) {
             Player randomPlayer = instance.players.get(random.nextInt(size));
-            if (!randomPlayer.equals(currentPlayer)) {
+            if (!randomPlayer.equals(currentPlayer) && randomPlayer.getHomeGround() != null) {
                 return randomPlayer;
             }
         }

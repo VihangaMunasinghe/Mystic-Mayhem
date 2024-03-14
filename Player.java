@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Player implements Serializable,Cloneable{
+public class Player implements Serializable{
     private int userId;
     private String name;
     private String userName;
@@ -26,6 +26,16 @@ public class Player implements Serializable,Cloneable{
         this.userName = userName;
         this.goldCoins = 500;
         this.xp = 1;
+    }
+
+    public Player(int userId, String name, String userName, int xp, int goldCoins, HomeGround homeGround, List<Character> army) {
+        this.userId = userId;
+        this.name = name;
+        this.userName = userName;
+        this.xp = xp;
+        this.goldCoins = goldCoins;
+        this.homeGround = homeGround;
+        this.army = army;
     }
 
     public int getUserId(){
@@ -158,7 +168,7 @@ public class Player implements Serializable,Cloneable{
         return homeGround;
     }
     public void showHomeGround(){
-        System.out.println("Home Ground");
+        System.out.println("\n**Home Ground**\n");
         if(homeGround != null){
             homeGround.showDetails();
         }
@@ -169,6 +179,7 @@ public class Player implements Serializable,Cloneable{
     }
     public void setHomeGround(HomeGround homeGround) {
         this.homeGround = homeGround;
+        updateUser();
     }
 
     public void buyCharacter(){
@@ -234,7 +245,7 @@ public class Player implements Serializable,Cloneable{
             System.out.print("Choice: ");
             Scanner scanner = new Scanner(System.in);
             try {
-                int option = scanner.nextInt();
+                int option = Integer.parseInt(scanner.nextLine());
                 if (option == 0) return;
                 if (0 < option && option <= army.size()) {
                     Character character = army.get(option - 1);
@@ -246,7 +257,7 @@ public class Player implements Serializable,Cloneable{
                     updateUser();
                     return;
                 }
-            } catch (InputMismatchException ex) {
+            } catch (NumberFormatException ex) {
                 System.out.println("Invalid input! Please enter a integer value.");
             }
         }
@@ -265,23 +276,22 @@ public class Player implements Serializable,Cloneable{
             if(player.army.size()<5) continue;
             player.showDetails();
             player.showArmy();
-            System.out.println("Do you want to declare war with "+player.getName()+"?");
+            System.out.println("\nDo you want to declare war with "+player.getName()+"?");
             System.out.println("1. Yes! Attack!!!!\n2. No, next player");
             System.out.println("Enter 0 to Stop Searching");
             Scanner scanner = new Scanner(System.in);
             while(true) {
-                System.out.print("Choice: ");System.out.print("Choice: ");
+                System.out.print("Choice: ");
                 try {
-                    int option = scanner.nextInt();
+                    int option = Integer.parseInt(scanner.nextLine());
                     if(option == 0) return null;
                     if(option == 1){
-                        this.declareWar(player);
                         return player;
                     }
                     else if(option == 2) break;
                     else System.out.println("Invalid input! Please enter 1 or 2.");
 
-                } catch (InputMismatchException ex) {
+                } catch (NumberFormatException ex) {
                     System.out.println("Invalid input! Please enter 1 or 2.");
                 }
             }
@@ -301,7 +311,24 @@ public class Player implements Serializable,Cloneable{
         System.out.println("XP: "+xp);
         System.out.println("Gold Coins: "+goldCoins);
     }
-    public Player clone() throws CloneNotSupportedException {
-        return (Player) super.clone();
+    public static Player getDefaultPlayer(){
+        List<Character> army = Store.getDefaultPlayerArmy();
+        return new Player(1,"GeraltofRivia", "whitewolf", 32, 215, Marshland.getInstance(),army);
+    }
+    public Player clone()  {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(this);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+            return (Player) objectInputStream.readObject();
+        }
+        catch (IOException | ClassNotFoundException ex){
+            System.out.println("Player cloning failed!");
+        }
+        return null;
     }
 }
