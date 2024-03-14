@@ -1,45 +1,48 @@
-import java.sql.*;
 import java.util.Scanner;
 public class Account {
-    private static int noOfPlayers = 0;
-    public static Player createAccount() {
-        String url = "jdbc:mysql://localhost/mysticmayhem";
-        String username = "root";
-        String password = "";
-
+    public static Player createAccount(){
+        String userName,name;
         Scanner scanner = new Scanner(System.in);
+        System.out.println("* Create New Account *");
 
-        System.out.println("Enter the name: ");
-        String name = scanner.nextLine();
+        while(true) {
+            System.out.print("Enter the name: ");
+            name = scanner.nextLine();
 
-        try {
-            Connection conn = DriverManager.getConnection(url, username, password);
-            String query = "SELECT * FROM userID WHERE userName=? ";
-
-            boolean userNameAvailable = false;
-            while(!userNameAvailable){
-                System.out.println("Enter the username: ");
-                String userName = scanner.nextLine();
-
-                PreparedStatement stmt = conn.prepareStatement(query);
-                stmt.setString(1, userName);
-                ResultSet result = stmt.executeQuery();
-
-                if (!result.next()) {
-                    userNameAvailable = true;
-                    // Create the player account here
-                    Player player = new Player(userName, name);
-                    Database.saveNewUser(player);
-                    return player;
-                } else {
-                    System.out.println("User name is already taken. Enter a new one.");
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Database operation failed!");
-            e.printStackTrace();
+            if(!name.isEmpty())
+                break;
+            else
+                System.out.println("Name cannot be empty");
         }
-        return null;
+
+
+        while(true) {
+            while(true) {
+                System.out.print("Enter the username: ");
+                userName = scanner.nextLine();
+
+                if(!userName.isEmpty())
+                    break;
+                else
+                    System.out.println("Username cannot be empty");
+            }
+            if (Database.isUserNameAvailable(userName)) {
+                int userId = Database.getNextUserId();
+                Player player = new Player(userId, name, userName);
+                player.saveNewUser();
+                return player;
+            }
+            else {
+                System.out.println("Username is not available. Enter new username.");
+            }
+        }
     }
 
+    public static Player logIn(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("**Login to your Account**");
+        System.out.print("Enter the username: ");
+        String userName = scanner.nextLine();
+        return Database.getPlayer(userName);
+    }
 }

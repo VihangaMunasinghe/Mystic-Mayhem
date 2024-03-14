@@ -1,9 +1,8 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
 
-public abstract class HomeGround {
+public abstract class HomeGround implements Serializable {
     private final String name, description;
     protected HomeGround(String name, String description){
         this.name = name;

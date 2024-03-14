@@ -8,7 +8,9 @@ public class Program {
         while (true){
             if(currentPlayer == null){
                 createOrLoadPlayer();
-                currentPlayer.showDetails();
+                if(currentPlayer != null){
+                    currentPlayer.showDetails();
+                }
             }
             if(currentPlayer != null){
                 showPlayerMenu();
@@ -46,7 +48,7 @@ public class Program {
 
     private static void showPlayerMenu(){
         System.out.println("\n** Menu ** (Choose an option)");
-        System.out.println("1. Show Player Details\n2. Show army\n3. Buy Character\n4. Sell Character\n5. Search for a War\n6. Change the HomeGround\n7. Change name\n8. Log out");
+        System.out.println("1. Show my Details\n2. Show my army\n3. Buy a Character\n4. Sell a Character\n5. Search for a War\n6. Show my HomeGround\n7. Change the HomeGround\n8. Change name\n9. Log out");
         while (true) {
             int choice = 0;
             try{
@@ -72,18 +74,21 @@ public class Program {
                 currentPlayer.sellCharacter();
                 break;
             } else if (choice == 5) {
-                Player opponent = currentPlayer.searchForWar();
+                Player opponent = currentPlayer.searchOpponentForWar();
                 if (opponent != null) {
                     currentPlayer.declareWar(opponent);
                 }
                 break;
             } else if (choice == 6) {
-                currentPlayer.setHomeground(HomeGround.showHomeGrounds());
+                currentPlayer.showHomeGround();
                 break;
-            } else if (choice == 7) {
+            }else if (choice == 7) {
+                currentPlayer.setHomeGround(HomeGround.showHomeGrounds());
+                break;
+            } else if (choice == 8) {
                 currentPlayer.changeName();
                 break;
-            }else if (choice == 8) {
+            }else if (choice == 9) {
                 currentPlayer = null;
                 break;
             } else {

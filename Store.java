@@ -19,7 +19,7 @@ public class Store {
     List<Character> healers = new ArrayList<>();
     List<Character> mythicalCreatures = new ArrayList<>();
 
-    List<Equipment> armour = new ArrayList<>();
+    List<Equipment> armours = new ArrayList<>();
     List<Equipment> artefacts = new ArrayList<>();
 
     //constructor to set the valuess
@@ -102,9 +102,9 @@ public class Store {
         Equipment chainmail = new Equipment("Chainmail","Armour", 70,0,1,0,-1);
         Equipment regalia = new Equipment("Regalia","Armour" ,105,0,1,0,0);
         Equipment fleece = new Equipment("Fleece","Armour" ,150,0,2,1,-1);
-        armour.add(chainmail);
-        armour.add(regalia);
-        armour.add(fleece);
+        armours.add(chainmail);
+        armours.add(regalia);
+        armours.add(fleece);
     }
 
     public void setArtefacts(){
@@ -181,23 +181,34 @@ public class Store {
         return mythicalCreatures.get(Integer.parseInt(userInput)-1);
     }
 
-    public Equipment showArmour() {
+    public Equipment showArmours() {
         System.out.println("Select an Armor");
-        for(int i = 0; i < armour.size(); i++){
+        for(int i = 0; i < armours.size(); i++){
             System.out.println(i+1);
-            armour.get(i).showDetails();
+            armours.get(i).showDetails();
             System.out.println();
         }
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Choice: ");
-        String userInput = scanner.nextLine();
-        
-        try {
-            return armour.get(Integer.parseInt(userInput)-1).clone();
-        } catch (CloneNotSupportedException e) {
-            System.out.println("Err: Armour cloning failed!");
+        while (true) {
+            System.out.print("Choice: ");
+            try{
+                int userInput = Integer.parseInt(scanner.nextLine());
+                if(userInput == 0) return null;
+                if(userInput>0 && userInput<= armours.size()){
+                    return armours.get(userInput - 1).clone();
+                }
+                else {
+                    System.out.println("Invalid input. Enter a integer from 1 to "+armours.size());
+                }
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Invalid input. Enter a integer.");
+            }
+            catch (CloneNotSupportedException e) {
+                System.out.println("Err: Artefact cloning failed!");
+                return null;
+            }
         }
-        return null;
     }
 
     public Equipment showArtefacts() {
@@ -208,51 +219,92 @@ public class Store {
             System.out.println();
         }
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Choice: ");
-        String userInput = scanner.nextLine();
-        
-        try {
-            return artefacts.get(Integer.parseInt(userInput)-1).clone();
-        } catch (CloneNotSupportedException e) {
-            System.out.println("Err: Artefact cloning failed!");
+        while (true) {
+            System.out.print("Choice: ");
+            try{
+                int userInput = Integer.parseInt(scanner.nextLine());
+                if(userInput == 0) return null;
+                if(userInput>0 && userInput<=artefacts.size()){
+                    return artefacts.get(userInput - 1).clone();
+                }
+                else {
+                    System.out.println("Invalid input. Enter a integer from 1 to "+artefacts.size());
+                }
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Invalid input. Enter a integer.");
+            }
+            catch (CloneNotSupportedException e) {
+                System.out.println("Err: Artefact cloning failed!");
+                return null;
+            }
         }
-        return null;
     }
 
     public Character showCharacters(){
         Scanner scanner = new Scanner(System.in);
         String userInput;
+        System.out.println("Welcome to the Store");
+        System.out.println("Characters");
+        System.out.println("1. Show Archers");
+        System.out.println("2. Show Knights");
+        System.out.println("3. Show Mages");
+        System.out.println("4. Show Healers");
+        System.out.println("5. Show Mythical Creatures");
+        System.out.println("Enter 0 to exit store.");
         while(true) {
-            System.out.println("Enter 1 to view Archers");
-            System.out.println("Enter 2 to see Knights");
-            System.out.println("Enter 3 to see Mages");
-            System.out.println("Enter 4 to see Healers");
-            System.out.println("Enter 5 to see Mythical Creatures");
             System.out.print("Choice: ");
             userInput = scanner.nextLine();
-            if (userInput.equals("1") || userInput.equals("2") || userInput.equals("3") || userInput.equals("4") || userInput.equals("5")) {
+            if (userInput.equals("0") || userInput.equals("1") || userInput.equals("2") || userInput.equals("3") || userInput.equals("4") || userInput.equals("5")) {
                 break;
             } else {
                 System.out.println("Please enter a valid input");
             }
         }
-        try{
-            switch (userInput){
-                case "1":
-                    return showArchers().clone();
-                case "2":
-                    return showKnights().clone();
-                case "3":
-                    return showMages().clone();
-                case "4":
-                    return showHealers().clone();
-                case "5":
-                    return showMythicalCreatures().clone();
+            List<Character> characters = null;
+            if (userInput.equals("0")) return null;
+            else if (userInput.equals("1")) {
+                characters = archers;
+                System.out.println("Select a Archer");
+            } else if (userInput.equals("2")) {
+                characters = knights;
+                System.out.println("Select a Knight");
+            } else if (userInput.equals("3")) {
+                characters = mages;
+                System.out.println("Select a Mage");
+            } else if (userInput.equals("4")) {
+                characters = healers;
+                System.out.println("Select a Healer");
+            } else {
+                characters = mythicalCreatures;
+                System.out.println("Select a Mythical Creature");
             }
-        }
-        catch (Exception ex){
-            System.out.println("Err: Character cloning failed!");
-        }
-        return null;
+            System.out.println("Enter 0 to exit store.");
+            for(int i = 0; i < characters.size(); i++){
+                System.out.println(i+1+".");
+                characters.get(i).showDetails();
+                System.out.println();
+            }
+            while (true){
+                try{
+                    System.out.print("Choice: ");
+                    int characterSelection = Integer.parseInt(scanner.nextLine());
+                    if(characterSelection == 0) return null;
+                    else if(characterSelection>0 && characterSelection<=characters.size()){
+                        return characters.get(characterSelection-1).clone();
+                    }
+                    else{
+                        System.out.println("Invalid input. Enter a integer from 1 to "+characters.size());
+                    }
+                }
+                catch (NumberFormatException ex){
+                    System.out.println("Invalid input. Enter a integer.");
+                }
+                catch (CloneNotSupportedException ex){
+                    System.out.println("Err: Character cloning failed!");
+                    return null;
+                }
+            }
+
     }
 }

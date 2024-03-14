@@ -1,11 +1,13 @@
-public class Equipment implements Cloneable{
-    private String name;
-    private String type;
-    private int price;
-    private int attack;
-    private int defence;
-    private int health;
-    private int speed;
+import java.io.Serializable;
+
+public class Equipment implements Cloneable, Serializable {
+    private final String name;
+    private final String type;
+    private final int price;
+    private final int attack;
+    private final int defence;
+    private final int health;
+    private final int speed;
 
     public Equipment(String name, String type, int price, int attack, int defense, int health, int speed) {
         this.name = name;
