@@ -17,13 +17,10 @@ public class Desert extends HomeGround{
     @Override
     public void updateArmy(List<Character> army) {
         for(Character character : army){
-            switch (character.getCategory()) {
-                case "Marshlander" :
-                    character.changeHealth(-1);
-                    break;
-                case "Sunchildren" :
-                    character.changeAttack(1);
-                    break;
+            if (character.getCategory().equals("Marshlander")) {
+                character.changeHealth(-1);
+            } else if (character.getCategory().equals("Sunchildren")) {
+                character.changeAttack(1);
             }
         }
     }

@@ -44,17 +44,17 @@ public class Combat {
     }
 
     public void fight(){
-        System.out.println(player1.getName()+" vs "+player2.getName());
+        System.out.println("\n"+player1.getName()+" vs "+player2.getName());
         for(int turn = 1; turn<=10; turn++) {
             if (player1Attacker == null) player1Attacker = getNextAttacker(player1Copy.getArmy());
-            if (player1Defender == null) player1Defender = getNextDefender(player1Copy.getArmy());
-            if (player2Attacker == null) player2Attacker = getNextAttacker(player2Copy.getArmy());
             if (player2Defender == null) player2Defender = getNextDefender(player2Copy.getArmy());
+            if (player2Attacker == null) player2Attacker = getNextAttacker(player2Copy.getArmy());
+            if (player1Defender == null) player1Defender = getNextDefender(player1Copy.getArmy());
 
             if(player1Copy.getArmy().isEmpty() || player2Copy.getArmy().isEmpty()) break;
 
             //// Player1's turn
-            System.out.println("Turn "+turn+": "+player1.getName());
+            System.out.println("\nTurn "+turn+": "+player1.getName());
             if(attack(player1, player1Attacker, player2Defender, 1)){
                 player2Copy.getArmy().remove(player2Defender);
                 if(player2Attacker == player2Defender) player2Attacker = null;
@@ -74,14 +74,19 @@ public class Combat {
                 player1Attacker.changeHealth(healthChange);
             }
 
+            if (player1Attacker == null) player1Attacker = getNextAttacker(player1Copy.getArmy());
+            if (player2Defender == null) player2Defender = getNextDefender(player2Copy.getArmy());
+            if (player2Attacker == null) player2Attacker = getNextAttacker(player2Copy.getArmy());
+            if (player1Defender == null) player1Defender = getNextDefender(player1Copy.getArmy());
+
             //// Player2's turn
-            System.out.println("Turn "+turn+": "+player2.getName());
+            System.out.println("\nTurn "+turn+": "+player2.getName());
             if(attack(player2,player2Attacker, player1Defender, 1)){
                 player1Copy.getArmy().remove(player1Defender);
                 if(player1Attacker == player1Defender) player1Attacker = null;
                 player1Defender = null;
             }
-            if(Objects.equals(homeGround.getName(), "Hillcrest") && Objects.equals(player1Attacker.getCategory(), "Highlander")){
+            if(Objects.equals(homeGround.getName(), "Hillcrest") && Objects.equals(player2Attacker.getCategory(), "Highlander") && !player1Copy.getArmy().isEmpty()){
                 if (player1Attacker == null) player1Attacker = getNextAttacker(player1Copy.getArmy());
                 if (player1Defender == null) player1Defender = getNextDefender(player1Copy.getArmy());
 
@@ -90,7 +95,7 @@ public class Combat {
                     if(player1Attacker == player1Defender) player1Attacker = null;
                     player1Defender = null;
                 }
-            } else if (Objects.equals(homeGround.getName(), "Arcane") && Objects.equals(player1Attacker.getCategory(), "Mystics")) {
+            } else if (Objects.equals(homeGround.getName(), "Arcane") && Objects.equals(player2Attacker.getCategory(), "Mystics") && !player1Copy.getArmy().isEmpty()) {
                 float healthChange = 0.1f * player2Attacker.getHealth();
                 player2Attacker.changeHealth(healthChange);
             }
@@ -139,33 +144,44 @@ public class Combat {
     }
 
     private Character getNextAttacker(List<Character> army){
-        Character nextAttacker = army.getFirst();
-        for(Character character: army){
-            if(character.getSpeed() > nextAttacker.getSpeed()) nextAttacker = character;
-            else if (character.getSpeed() == nextAttacker.getSpeed()) {
-                if(attackPriorityOrder.get(character.getType()) > attackPriorityOrder.get(nextAttacker.getType())) nextAttacker = character;
+        if(!army.isEmpty()) {
+            Character nextAttacker = army.getFirst();
+            for (Character character : army) {
+                if (character.getSpeed() > nextAttacker.getSpeed()) nextAttacker = character;
+                else if (character.getSpeed() == nextAttacker.getSpeed()) {
+                    if (attackPriorityOrder.get(character.getType()) > attackPriorityOrder.get(nextAttacker.getType()))
+                        nextAttacker = character;
+                }
             }
+            return nextAttacker;
         }
-        return nextAttacker;
+        return null;
     }
 
     private Character getNextDefender(List<Character> army){
-        Character nextDefender = army.getFirst();
-        for(Character character: army){
-            if(character.getDefence() < nextDefender.getSpeed()) nextDefender = character;
-            else if (character.getDefence() == nextDefender.getDefence()) {
-                if(defendPriorityOrder.get(character.getType()) > defendPriorityOrder.get(nextDefender.getType())) nextDefender = character;
+        if(!army.isEmpty()) {
+            Character nextDefender = army.getFirst();
+            for (Character character : army) {
+                if (character.getDefence() < nextDefender.getSpeed()) nextDefender = character;
+                else if (character.getDefence() == nextDefender.getDefence()) {
+                    if (defendPriorityOrder.get(character.getType()) > defendPriorityOrder.get(nextDefender.getType()))
+                        nextDefender = character;
+                }
             }
+            return nextDefender;
         }
-        return nextDefender;
+        return null;
     }
     private Character getLowestHealthCharacter(List<Character> army){
-        Character lowestHealthCharacter = army.getFirst();
-        for (Character character: army){
-            if(lowestHealthCharacter.getHealth() > character.getHealth()){
-                lowestHealthCharacter = character;
+        if(!army.isEmpty()) {
+            Character lowestHealthCharacter = army.getFirst();
+            for (Character character : army) {
+                if (lowestHealthCharacter.getHealth() > character.getHealth()) {
+                    lowestHealthCharacter = character;
+                }
             }
+            return lowestHealthCharacter;
         }
-        return lowestHealthCharacter;
+        return null;
     }
 }

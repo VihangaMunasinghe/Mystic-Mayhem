@@ -23,6 +23,16 @@ public class Player implements Serializable,Cloneable{
         this.xp = 1;
     }
 
+    public Player(int userId, String name, String userName, int xp, int goldCoins, HomeGround homeGround, List<Character> army) {
+        this.userId = userId;
+        this.name = name;
+        this.userName = userName;
+        this.xp = xp;
+        this.goldCoins = goldCoins;
+        this.homeGround = homeGround;
+        this.army = army;
+    }
+
     public int getUserId(){
         return userId;
     }
@@ -260,7 +270,7 @@ public class Player implements Serializable,Cloneable{
             if(player.army.size()<5) continue;
             player.showDetails();
             player.showArmy();
-            System.out.println("Do you want to declare war with "+player.getName()+"?");
+            System.out.println("\nDo you want to declare war with "+player.getName()+"?");
             System.out.println("1. Yes! Attack!!!!\n2. No, next player");
             System.out.println("Enter 0 to Stop Searching");
             Scanner scanner = new Scanner(System.in);
@@ -295,6 +305,10 @@ public class Player implements Serializable,Cloneable{
         System.out.println("Username: "+userName);
         System.out.println("XP: "+xp);
         System.out.println("Gold Coins: "+goldCoins);
+    }
+    public static Player getDefaultPlayer(){
+        List<Character> army = Store.getDefaultPlayerArmy();
+        return new Player(1,"GeraltofRivia", "whitewolf", 32, 215, Marshland.getInstance(),army);
     }
     public Player clone() throws CloneNotSupportedException {
         return (Player) super.clone();

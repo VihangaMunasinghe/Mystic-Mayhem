@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.List;
 
 class Character implements Cloneable, Serializable {
     private final String name;
@@ -165,7 +166,12 @@ class Character implements Cloneable, Serializable {
             currentValue += (int)(currentArtefact.getPrice()*0.2f);
         }
     }
+    public void setArmourAndArtefact(Equipment armour, Equipment artefact){
+        this.currentArmour = armour;
+        this.currentArtefact = artefact;
+    }
     public Character clone() throws CloneNotSupportedException {
         return (Character) super.clone();
     }
+
 }

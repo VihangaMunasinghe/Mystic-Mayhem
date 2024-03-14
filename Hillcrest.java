@@ -19,15 +19,11 @@ public class Hillcrest extends HomeGround{
     @Override
     public void updateArmy(List<Character> army) {
         for(Character character : army){
-            switch (character.getCategory()) {
-                case "Highlander" :
-                    character.changeAttack(1);
-                    character.changeDefence(1);
-                    break;
-
-                case "Marshlander", "Sunchildren" :
-                    character.changeSpeed(-1);
-                    break;
+            if (character.getCategory().equals("Highlander")) {
+                character.changeAttack(1);
+                character.changeDefence(1);
+            } else if (character.getCategory().equals("Marshlander") || character.getCategory().equals("Sunchildren")) {
+                character.changeSpeed(-1);
             }
         }
     }

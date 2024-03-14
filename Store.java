@@ -35,11 +35,11 @@ public class Store {
     }
 
     public void setArchers() {
-        Character shooter = new Character("Shooter","Archer",null,80,11,4,6,9,null,null);
-        Character ranger = new Character("Ranger","Archer",null,115,14,5,8,10,null,null);
-        Character sunfire = new Character("Sunfire","Archer",null,160,15,5,7,14,null,null);
-        Character zing = new Character("Zing","Archer",null,200,16,9,11,14,null,null);
-        Character saggitarius = new Character("Saggitarius","Archer",null,230,18,7,12,17,null,null);
+        Character shooter = new Character("Shooter","Archer","Highlander",80,11,4,6,9,null,null);
+        Character ranger = new Character("Ranger","Archer","Highlander",115,14,5,8,10,null,null);
+        Character sunfire = new Character("Sunfire","Archer","Sunchildren",160,15,5,7,14,null,null);
+        Character zing = new Character("Zing","Archer","Sunchildren",200,16,9,11,14,null,null);
+        Character saggitarius = new Character("Saggitarius","Archer","Mystics",230,18,7,12,17,null,null);
         archers.add(shooter);
         archers.add(ranger);
         archers.add(sunfire);
@@ -47,11 +47,11 @@ public class Store {
         archers.add(saggitarius);
     }
     public void setKnights(){
-        Character squire = new Character("Squire","Knight",null,85,8,9,7,8,null,null);
-        Character cavalier = new Character("Cavalier","Knight",null,110,10,12,7,10,null,null);
-        Character templar = new Character("Templar","Knight",null,155,14,16,12,12,null,null);
-        Character zoro = new Character("Zoro","Knight",null,180,17,16,13,14,null,null);
-        Character swiftblade = new Character("Swiftblade","Knight",null,250,18,20,17,13,null,null);
+        Character squire = new Character("Squire","Knight","Marshlander",85,8,9,7,8,null,null);
+        Character cavalier = new Character("Cavalier","Knight","Highlander",110,10,12,7,10,null,null);
+        Character templar = new Character("Templar","Knight","Sunchildren",155,14,16,12,12,null,null);
+        Character zoro = new Character("Zoro","Knight","Highlander",180,17,16,13,14,null,null);
+        Character swiftblade = new Character("Swiftblade","Knight","Marshlander",250,18,20,17,13,null,null);
         knights.add(squire);
         knights.add(cavalier);
         knights.add(templar);
@@ -60,11 +60,11 @@ public class Store {
     }
 
     public void setMages(){
-        Character warlock = new Character("Warlock","Mage",null,100,12,7,10,12,null,null);
-        Character illusionist = new Character("Illusionist","Mage",null,120,13,8,12,14,null,null);
-        Character enchanter = new Character("Enchanter","Mage",null,160,16,10,13,16,null,null);
-        Character conjurer = new Character("Conjurer","Mage",null,195,18,15,14,12,null,null);
-        Character elderitch = new Character("Elderitch","Mage",null,270,19,17,18,14,null,null);
+        Character warlock = new Character("Warlock","Mage","Marshlander",100,12,7,10,12,null,null);
+        Character illusionist = new Character("Illusionist","Mage","Mystics",120,13,8,12,14,null,null);
+        Character enchanter = new Character("Enchanter","Mage","Highlander",160,16,10,13,16,null,null);
+        Character conjurer = new Character("Conjurer","Mage","Highlander",195,18,15,14,12,null,null);
+        Character elderitch = new Character("Elderitch","Mage","Mystics",270,19,17,18,14,null,null);
         mages.add(warlock);
         mages.add(illusionist);
         mages.add(enchanter);
@@ -73,11 +73,11 @@ public class Store {
     }
 
     public void setHealers(){
-        Character soother = new Character("Soother","Healer",null,95,10,8,9,6,null,null);
-        Character medic = new Character("Medic","Healer",null,125,12,9,10,7,null,null);
-        Character alchemist = new Character("Alchemist","Healer",null,150,13,13,13,13,null,null);
-        Character saint = new Character("Saint","Healer",null,200,16,14,17,9,null,null);
-        Character lightbringer = new Character("Lightbringer","Healer",null,260,17,15,19,12,null,null);
+        Character soother = new Character("Soother","Healer","Sunchildren",95,10,8,9,6,null,null);
+        Character medic = new Character("Medic","Healer","Highlander",125,12,9,10,7,null,null);
+        Character alchemist = new Character("Alchemist","Healer","Marshlander",150,13,13,13,13,null,null);
+        Character saint = new Character("Saint","Healer","Mystics",200,16,14,17,9,null,null);
+        Character lightbringer = new Character("Lightbringer","Healer","Sunchildren",260,17,15,19,12,null,null);
         healers.add(soother);
         healers.add(medic);
         healers.add(alchemist);
@@ -86,11 +86,11 @@ public class Store {
     }
 
     public void setMythicalCreatures(){
-        Character dragon = new Character("Dragon","Mythical Creature",null,120,12,14,15,8,null,null);
-        Character basilisk = new Character("Basilisk","Mythical Creature",null,165,15,11,10,12,null,null);
-        Character hydra = new Character("Hydra","Mythical Creature",null,205,12,16,15,11,null,null);
-        Character phoenix = new Character("Phoenix","Mythical Creature",null,275,17,13,17,19,null,null);
-        Character pegasus = new Character("Pegasus","Mythical Creature",null,340,14,18,20,20,null,null);
+        Character dragon = new Character("Dragon","Mythical Creature","Sunchildren",120,12,14,15,8,null,null);
+        Character basilisk = new Character("Basilisk","Mythical Creature","Marshlander",165,15,11,10,12,null,null);
+        Character hydra = new Character("Hydra","Mythical Creature","Marshlander",205,12,16,15,11,null,null);
+        Character phoenix = new Character("Phoenix","Mythical Creature","Sunchildren",275,17,13,17,19,null,null);
+        Character pegasus = new Character("Pegasus","Mythical Creature","Mystics",340,14,18,20,20,null,null);
         mythicalCreatures.add(dragon);
         mythicalCreatures.add(basilisk);
         mythicalCreatures.add(hydra);
@@ -115,7 +115,6 @@ public class Store {
         artefacts.add(amulet);
         artefacts.add(crystal);
     }
-
     public Character showArchers() {
         System.out.println("Select an Archer");
         for(int i = 0; i < archers.size(); i++){
@@ -128,7 +127,6 @@ public class Store {
         
         return archers.get(Integer.parseInt(userInput)-1);
     }
-
     public Character showKnights() {
         System.out.println("Select a Knight");
         for(int i = 0; i < knights.size(); i++){
@@ -141,7 +139,6 @@ public class Store {
         
         return knights.get(Integer.parseInt(userInput)-1);
     }
-
     public Character showMages() {
         System.out.println("Select a Mage");
         for(int i = 0; i < mages.size(); i++){
@@ -154,7 +151,6 @@ public class Store {
         
         return mages.get(Integer.parseInt(userInput)-1);
     }
-
     public Character showHealers() {
         System.out.println("Select a Healer");
         for(int i = 0; i < healers.size(); i++){
@@ -167,7 +163,6 @@ public class Store {
         
         return healers.get(Integer.parseInt(userInput)-1);
     }
-
     public Character showMythicalCreatures() {
         System.out.println("Select a Mythical Creature");
         for(int i = 0; i < mythicalCreatures.size(); i++){
@@ -180,7 +175,6 @@ public class Store {
         
         return mythicalCreatures.get(Integer.parseInt(userInput)-1);
     }
-
     public Equipment showArmours() {
         System.out.println("Select an Armor");
         for(int i = 0; i < armours.size(); i++){
@@ -210,7 +204,6 @@ public class Store {
             }
         }
     }
-
     public Equipment showArtefacts() {
         System.out.println("Select an Artefact");
         for(int i = 0; i < artefacts.size(); i++){
@@ -240,7 +233,6 @@ public class Store {
             }
         }
     }
-
     public Character showCharacters(){
         Scanner scanner = new Scanner(System.in);
         String userInput;
@@ -306,5 +298,20 @@ public class Store {
                 }
             }
 
+    }
+    public static List<Character> getDefaultPlayerArmy(){
+        getInstance();
+        Character ranger = instance.archers.get(1);
+        ranger.setArmourAndArtefact(instance.armours.getFirst(), null);
+        Character medic = instance.healers.get(1);
+        medic.setArmourAndArtefact(null, instance.artefacts.get(1));
+        List<Character> army = new ArrayList<>();
+        army.add(ranger);
+        army.add(instance.knights.getFirst());
+        army.add(instance.healers.getFirst());
+        army.add(medic);
+        army.add(instance.mythicalCreatures.getFirst());
+
+        return army;
     }
 }
