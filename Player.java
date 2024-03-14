@@ -163,7 +163,7 @@ public class Player implements Serializable{
         return homeGround;
     }
     public void showHomeGround(){
-        System.out.println("Home Ground");
+        System.out.println("\n**Home Ground**\n");
         if(homeGround != null){
             homeGround.showDetails();
         }
@@ -174,6 +174,7 @@ public class Player implements Serializable{
     }
     public void setHomeGround(HomeGround homeGround) {
         this.homeGround = homeGround;
+        updateUser();
     }
 
     public void buyCharacter(){
@@ -239,7 +240,7 @@ public class Player implements Serializable{
             System.out.print("Choice: ");
             Scanner scanner = new Scanner(System.in);
             try {
-                int option = scanner.nextInt();
+                int option = Integer.parseInt(scanner.nextLine());
                 if (option == 0) return;
                 if (0 < option && option <= army.size()) {
                     Character character = army.get(option - 1);
@@ -251,7 +252,7 @@ public class Player implements Serializable{
                     updateUser();
                     return;
                 }
-            } catch (InputMismatchException ex) {
+            } catch (NumberFormatException ex) {
                 System.out.println("Invalid input! Please enter a integer value.");
             }
         }
@@ -275,18 +276,17 @@ public class Player implements Serializable{
             System.out.println("Enter 0 to Stop Searching");
             Scanner scanner = new Scanner(System.in);
             while(true) {
-                System.out.print("Choice: ");System.out.print("Choice: ");
+                System.out.print("Choice: ");
                 try {
-                    int option = scanner.nextInt();
+                    int option = Integer.parseInt(scanner.nextLine());
                     if(option == 0) return null;
                     if(option == 1){
-                        this.declareWar(player);
                         return player;
                     }
                     else if(option == 2) break;
                     else System.out.println("Invalid input! Please enter 1 or 2.");
 
-                } catch (InputMismatchException ex) {
+                } catch (NumberFormatException ex) {
                     System.out.println("Invalid input! Please enter 1 or 2.");
                 }
             }
