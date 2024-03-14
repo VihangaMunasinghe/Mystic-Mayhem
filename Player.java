@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Player implements Serializable,Cloneable{
+public class Player implements Serializable{
     private int userId;
     private String name;
     private String userName;
@@ -310,7 +310,20 @@ public class Player implements Serializable,Cloneable{
         List<Character> army = Store.getDefaultPlayerArmy();
         return new Player(1,"GeraltofRivia", "whitewolf", 32, 215, Marshland.getInstance(),army);
     }
-    public Player clone() throws CloneNotSupportedException {
-        return (Player) super.clone();
+    public Player clone()  {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(this);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+            return (Player) objectInputStream.readObject();
+        }
+        catch (IOException | ClassNotFoundException ex){
+            System.out.println("Player cloning failed!");
+        }
+        return null;
     }
 }

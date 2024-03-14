@@ -29,12 +29,8 @@ public class Combat {
         this.player1 = player1;
         this.player2 = player2;
         this.homeGround = homeGround;
-        try {
-            this.player1Copy = player1.clone();
-            this.player2Copy = player2.clone();
-        } catch (CloneNotSupportedException e) {
-            System.out.println("Player cloning failed!!!");
-        }
+        this.player1Copy = player1.clone();
+        this.player2Copy = player2.clone();
         prepareArmy();
     }
 
@@ -46,59 +42,54 @@ public class Combat {
     public void fight(){
         System.out.println("\n"+player1.getName()+" vs "+player2.getName());
         for(int turn = 1; turn<=10; turn++) {
-            if (player1Attacker == null) player1Attacker = getNextAttacker(player1Copy.getArmy());
-            if (player2Defender == null) player2Defender = getNextDefender(player2Copy.getArmy());
-            if (player2Attacker == null) player2Attacker = getNextAttacker(player2Copy.getArmy());
-            if (player1Defender == null) player1Defender = getNextDefender(player1Copy.getArmy());
 
-            if(player1Copy.getArmy().isEmpty() || player2Copy.getArmy().isEmpty()) break;
-
-            //// Player1's turn
-            System.out.println("\nTurn "+turn+": "+player1.getName());
-            if(attack(player1, player1Attacker, player2Defender, 1)){
-                player2Copy.getArmy().remove(player2Defender);
-                if(player2Attacker == player2Defender) player2Attacker = null;
-                player2Defender = null;
-            }
-            if(Objects.equals(homeGround.getName(), "Hillcrest") && Objects.equals(player1Attacker.getCategory(), "Highlander")){
-                if (player2Attacker == null) player2Attacker = getNextAttacker(player2Copy.getArmy());
-                if (player2Defender == null) player2Defender = getNextDefender(player2Copy.getArmy());
-
-                if(attack(player1, player1Attacker, player2Defender, 0.2f)){
+            if(getReadyCharacters()){
+                //// Player1's turn
+                System.out.println("\nTurn "+turn+": "+player1.getName());
+                if(attack(player1Copy, player1Attacker, player2Defender, 1)){
                     player2Copy.getArmy().remove(player2Defender);
                     if(player2Attacker == player2Defender) player2Attacker = null;
                     player2Defender = null;
                 }
-            } else if (Objects.equals(homeGround.getName(), "Arcane") && Objects.equals(player1Attacker.getCategory(), "Mystics")) {
-                float healthChange = 0.1f * player1Attacker.getHealth();
-                player1Attacker.changeHealth(healthChange);
-            }
-
-            if (player1Attacker == null) player1Attacker = getNextAttacker(player1Copy.getArmy());
-            if (player2Defender == null) player2Defender = getNextDefender(player2Copy.getArmy());
-            if (player2Attacker == null) player2Attacker = getNextAttacker(player2Copy.getArmy());
-            if (player1Defender == null) player1Defender = getNextDefender(player1Copy.getArmy());
-
-            //// Player2's turn
-            System.out.println("\nTurn "+turn+": "+player2.getName());
-            if(attack(player2,player2Attacker, player1Defender, 1)){
-                player1Copy.getArmy().remove(player1Defender);
-                if(player1Attacker == player1Defender) player1Attacker = null;
-                player1Defender = null;
-            }
-            if(Objects.equals(homeGround.getName(), "Hillcrest") && Objects.equals(player2Attacker.getCategory(), "Highlander") && !player1Copy.getArmy().isEmpty()){
-                if (player1Attacker == null) player1Attacker = getNextAttacker(player1Copy.getArmy());
-                if (player1Defender == null) player1Defender = getNextDefender(player1Copy.getArmy());
-
-                if(attack(player2,player2Attacker, player1Defender, 0.2f)){
-                    player1Copy.getArmy().remove(player1Defender);
-                    if(player1Attacker == player1Defender) player1Attacker = null;
-                    player1Defender = null;
+                if(getReadyCharacters()){
+                    if(Objects.equals(homeGround.getName(), "Hillcrest") && Objects.equals(player1Attacker.getCategory(), "Highlander")){
+                        if(attack(player1Copy, player1Attacker, player2Defender, 0.2f)){
+                            player2Copy.getArmy().remove(player2Defender);
+                            if(player2Attacker == player2Defender) player2Attacker = null;
+                            player2Defender = null;
+                        }
+                    } else if (Objects.equals(homeGround.getName(), "Arcane") && Objects.equals(player1Attacker.getCategory(), "Mystics")) {
+                        float healthChange = 0.1f * player1Attacker.getHealth();
+                        player1Attacker.changeHealth(healthChange);
+                    }
                 }
-            } else if (Objects.equals(homeGround.getName(), "Arcane") && Objects.equals(player2Attacker.getCategory(), "Mystics") && !player1Copy.getArmy().isEmpty()) {
-                float healthChange = 0.1f * player2Attacker.getHealth();
-                player2Attacker.changeHealth(healthChange);
+                else break;
+
+                //// Player2's turn
+                if(getReadyCharacters()){
+                    System.out.println("\nTurn "+turn+": "+player2.getName());
+                    if(attack(player2Copy,player2Attacker, player1Defender, 1)){
+                        player1Copy.getArmy().remove(player1Defender);
+                        if(player1Attacker == player1Defender) player1Attacker = null;
+                        player1Defender = null;
+                    }
+                    if(getReadyCharacters()) {
+                        if (Objects.equals(homeGround.getName(), "Hillcrest") && Objects.equals(player2Attacker.getCategory(), "Highlander") && !player1Copy.getArmy().isEmpty()) {
+                            if (attack(player2Copy, player2Attacker, player1Defender, 0.2f)) {
+                                player1Copy.getArmy().remove(player1Defender);
+                                if (player1Attacker == player1Defender) player1Attacker = null;
+                                player1Defender = null;
+                            }
+                        } else if (Objects.equals(homeGround.getName(), "Arcane") && Objects.equals(player2Attacker.getCategory(), "Mystics") && !player1Copy.getArmy().isEmpty()) {
+                            float healthChange = 0.1f * player2Attacker.getHealth();
+                            player2Attacker.changeHealth(healthChange);
+                        }
+                    }
+                    else break;
+                }
+                else break;
             }
+            else break;
         }
 
         if(player1Copy.getArmy().isEmpty()){
@@ -141,6 +132,16 @@ public class Combat {
             return true;
         }
         else return false;
+    }
+
+    private boolean getReadyCharacters(){
+        if(player1Copy.getArmy().isEmpty() || player2Copy.getArmy().isEmpty()) return false;
+
+        if (player1Attacker == null) player1Attacker = getNextAttacker(player1Copy.getArmy());
+        if (player2Defender == null) player2Defender = getNextDefender(player2Copy.getArmy());
+        if (player2Attacker == null) player2Attacker = getNextAttacker(player2Copy.getArmy());
+        if (player1Defender == null) player1Defender = getNextDefender(player1Copy.getArmy());
+        return true;
     }
 
     private Character getNextAttacker(List<Character> army){

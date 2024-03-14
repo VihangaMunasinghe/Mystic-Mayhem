@@ -301,17 +301,20 @@ public class Store {
     }
     public static List<Character> getDefaultPlayerArmy(){
         getInstance();
-        Character ranger = instance.archers.get(1);
-        ranger.setArmourAndArtefact(instance.armours.getFirst(), null);
-        Character medic = instance.healers.get(1);
-        medic.setArmourAndArtefact(null, instance.artefacts.get(1));
         List<Character> army = new ArrayList<>();
-        army.add(ranger);
-        army.add(instance.knights.getFirst());
-        army.add(instance.healers.getFirst());
-        army.add(medic);
-        army.add(instance.mythicalCreatures.getFirst());
+        try {
+            Character ranger = instance.archers.get(1).clone();ranger.setArmourAndArtefact(instance.armours.getFirst(), null);
+            Character medic = instance.healers.get(1).clone();
+            medic.setArmourAndArtefact(null, instance.artefacts.get(1).clone());
 
+            army.add(ranger);
+            army.add(instance.knights.getFirst().clone());
+            army.add(instance.healers.getFirst().clone());
+            army.add(medic);
+            army.add(instance.mythicalCreatures.getFirst().clone());
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
         return army;
     }
 }
