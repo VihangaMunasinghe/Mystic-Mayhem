@@ -3,10 +3,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+
 public class Combat {
     private final Player player1, player2;
-    private Player player1Copy;
-    private Player player2Copy;
+    private final Player player1Copy;
+    private final Player player2Copy;
     private final HomeGround homeGround;
     private Character player1Attacker = null, player1Defender = null, player2Attacker = null, player2Defender = null;
     private final Map<String, Integer> attackPriorityOrder = new HashMap<>() {{
@@ -16,7 +17,7 @@ public class Combat {
         put("Knight", 4);
         put("Archer", 5);
     }};
-    private final Map<String, Integer> defendPriorityOrder = new HashMap<String, Integer>(){{
+    private final Map<String, Integer> defendPriorityOrder = new HashMap<>() {{
         put("Mage", 1);
         put("Knight", 2);
         put("Archer", 3);
@@ -39,78 +40,102 @@ public class Combat {
         homeGround.updateArmy(player2Copy.getArmy());
     }
 
-    public void fight(){
-        System.out.println("\n"+player1.getName()+" vs "+player2.getName());
-        for(int turn = 1; turn<=10; turn++) {
+    public void fight() {
+        try {
+            System.out.println(" ____ _____  _    ____ _____   ____    _  _____ _____ _     _____ \n" +
+                    "/ ___|_   _|/ \\  |  _ \\_   _| | __ )  / \\|_   _|_   _| |   | ____|\n" +
+                    "\\___ \\ | | / _ \\ | |_) || |   |  _ \\ / _ \\ | |   | | | |   |  _|  \n" +
+                    " ___) || |/ ___ \\|  _ < | |   | |_) / ___ \\| |   | | | |___| |___ \n" +
+                    "|____/ |_/_/   \\_\\_| \\_\\|_|   |____/_/   \\_\\_|   |_| |_____|_____|");
+            Thread.sleep(2000);
+            System.out.println("\n   " + player1.getName() + " vs " + player2.getName());
+            for (int turn = 1; turn <= 10; turn++) {
 
-            if(getReadyCharacters()){
-                //// Player1's turn
-                System.out.println("\nTurn "+turn+": "+player1.getName());
-                if(attack(player1Copy, player1Attacker, player2Defender, 1)){
-                    player2Copy.getArmy().remove(player2Defender);
-                    if(player2Attacker == player2Defender) player2Attacker = null;
-                    player2Defender = null;
-                }
-                if(getReadyCharacters()){
-                    if(Objects.equals(homeGround.getName(), "Hillcrest") && Objects.equals(player1Attacker.getCategory(), "Highlander")){
-                        if(attack(player1Copy, player1Attacker, player2Defender, 0.2f)){
-                            player2Copy.getArmy().remove(player2Defender);
-                            if(player2Attacker == player2Defender) player2Attacker = null;
-                            player2Defender = null;
-                        }
-                    } else if (Objects.equals(homeGround.getName(), "Arcane") && Objects.equals(player1Attacker.getCategory(), "Mystics")) {
-                        float healthChange = 0.1f * player1Attacker.getHealth();
-                        player1Attacker.changeHealth(healthChange);
-                    }
-                }
-                else break;
+                Thread.sleep(2000);
 
-                //// Player2's turn
-                if(getReadyCharacters()){
-                    System.out.println("\nTurn "+turn+": "+player2.getName());
-                    if(attack(player2Copy,player2Attacker, player1Defender, 1)){
-                        player1Copy.getArmy().remove(player1Defender);
-                        if(player1Attacker == player1Defender) player1Attacker = null;
-                        player1Defender = null;
+                if (getReadyCharacters()) {
+                    //// Player1's turn
+                    System.out.println("\nTurn " + turn + ": " + player1.getName());
+                    if (attack(player1Copy, player1Attacker, player2Defender, 1)) {
+                        player2Copy.getArmy().remove(player2Defender);
+                        if (player2Attacker == player2Defender) player2Attacker = null;
+                        player2Defender = null;
                     }
-                    if(getReadyCharacters()) {
-                        if (Objects.equals(homeGround.getName(), "Hillcrest") && Objects.equals(player2Attacker.getCategory(), "Highlander") && !player1Copy.getArmy().isEmpty()) {
-                            if (attack(player2Copy, player2Attacker, player1Defender, 0.2f)) {
-                                player1Copy.getArmy().remove(player1Defender);
-                                if (player1Attacker == player1Defender) player1Attacker = null;
-                                player1Defender = null;
+                    if (getReadyCharacters()) {
+                        Thread.sleep(2000);
+                        if (Objects.equals(homeGround.getName(), "Hillcrest") && Objects.equals(player1Attacker.getCategory(), "Highlander")) {
+                            System.out.println();
+                            if (attack(player1Copy, player1Attacker, player2Defender, 0.2f)) {
+                                player2Copy.getArmy().remove(player2Defender);
+                                if (player2Attacker == player2Defender) player2Attacker = null;
+                                player2Defender = null;
                             }
-                        } else if (Objects.equals(homeGround.getName(), "Arcane") && Objects.equals(player2Attacker.getCategory(), "Mystics") && !player1Copy.getArmy().isEmpty()) {
-                            float healthChange = 0.1f * player2Attacker.getHealth();
-                            player2Attacker.changeHealth(healthChange);
+                        } else if (Objects.equals(homeGround.getName(), "Arcane") && Objects.equals(player1Attacker.getCategory(), "Mystics")) {
+                            float healthChange = 0.1f * player1Attacker.getHealth();
+                            player1Attacker.changeHealth(healthChange);
                         }
-                    }
-                    else break;
-                }
-                else break;
+                    } else break;
+
+                    //// Player2's turn
+                    Thread.sleep(2000);
+                    if (getReadyCharacters()) {
+                        System.out.println("\nTurn " + turn + ": " + player2.getName());
+                        if (attack(player2Copy, player2Attacker, player1Defender, 1)) {
+                            player1Copy.getArmy().remove(player1Defender);
+                            if (player1Attacker == player1Defender) player1Attacker = null;
+                            player1Defender = null;
+                        }
+                        if (getReadyCharacters()) {
+                            Thread.sleep(2000);
+                            if (Objects.equals(homeGround.getName(), "Hillcrest") && Objects.equals(player2Attacker.getCategory(), "Highlander") && !player1Copy.getArmy().isEmpty()) {
+                                System.out.println();
+                                if (attack(player2Copy, player2Attacker, player1Defender, 0.2f)) {
+                                    player1Copy.getArmy().remove(player1Defender);
+                                    if (player1Attacker == player1Defender) player1Attacker = null;
+                                    player1Defender = null;
+                                }
+                            } else if (Objects.equals(homeGround.getName(), "Arcane") && Objects.equals(player2Attacker.getCategory(), "Mystics") && !player1Copy.getArmy().isEmpty()) {
+                                float healthChange = 0.1f * player2Attacker.getHealth();
+                                player2Attacker.changeHealth(healthChange);
+                            }
+                        } else break;
+                    } else break;
+                } else break;
             }
-            else break;
-        }
 
-        if(player1Copy.getArmy().isEmpty()){
-            System.out.println(player2.getName()+" Won!");
-            int goldCoinExchange = (int) (player1.getGoldCoins()*0.1f);
-            player2.updateXp(1);
-            player2.updateGoldCoins(goldCoinExchange);
-            player1.updateGoldCoins(-goldCoinExchange);
+            if (player1Copy.getArmy().isEmpty()) {
+                System.out.println(player2.getName() + " Won!");
+                int goldCoinExchange = (int) (player1.getGoldCoins() * 0.1f);
+                player2.updateXp(1);
+                player2.updateGoldCoins(goldCoinExchange);
+                player1.updateGoldCoins(-goldCoinExchange);
 
-        }else if(player2Copy.getArmy().isEmpty()) {
-            System.out.println(player1.getName()+" Won!");
-            int goldCoinExchange = (int) (player2.getGoldCoins()*0.1f);
-            player1.updateXp(1);
-            player1.updateGoldCoins(goldCoinExchange);
-            player2.updateGoldCoins(-goldCoinExchange);
+            } else if (player2Copy.getArmy().isEmpty()) {
+                System.out.println(" ___   _ _____ _____ _    ___   ___ _  _ ___  ___ \n" +
+                        "| _ ) /_\\_   _|_   _| |  | __| | __| \\| |   \\/ __|\n" +
+                        "| _ \\/ _ \\| |   | | | |__| _|  | _|| .` | |) \\__ \\\n" +
+                        "|___/_/ \\_\\_|   |_| |____|___| |___|_|\\_|___/|___/");
+                System.out.println();
+                System.out.println(player1.getName() + " WON!");
+                int goldCoinExchange = (int) (player2.getGoldCoins() * 0.1f);
+                player1.updateXp(1);
+                player1.updateGoldCoins(goldCoinExchange);
+                player2.updateGoldCoins(-goldCoinExchange);
+            } else {
+                Thread.sleep(2000);
+                System.out.println(" ___   _ _____ _____ _    ___   ___ _  _ ___  ___ \n" +
+                        "| _ ) /_\\_   _|_   _| |  | __| | __| \\| |   \\/ __|\n" +
+                        "| _ \\/ _ \\| |   | | | |__| _|  | _|| .` | |) \\__ \\\n" +
+                        "|___/_/ \\_\\_|   |_| |____|___| |___|_|\\_|___/|___/\n");
+                System.out.println("DRAW!");
+            }
+            Thread.sleep(2000);
+            System.out.println(player1.getName() + " XP: " + player1.getXp() + " GoldCoins: " + player1.getGoldCoins());
+            System.out.println(player2.getName() + " XP: " + player2.getXp() + " GoldCoins: " + player2.getGoldCoins());
         }
-        else{
-            System.out.println("Draw");
+        catch (InterruptedException e){
+            System.out.println("Err: Tread Sleep error!");
         }
-        System.out.println(player1.getName()+" XP: "+player1.getXp()+" GoldCoins: "+player1.getGoldCoins());
-        System.out.println(player2.getName()+" XP: "+player2.getXp()+" GoldCoins: "+player2.getGoldCoins());
     }
 
     private boolean attack(Player attckingPlayer, Character attacker, Character defender, float attackPower){

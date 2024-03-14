@@ -115,68 +115,9 @@ public class Store {
         artefacts.add(amulet);
         artefacts.add(crystal);
     }
-    public Character showArchers() {
-        System.out.println("Select an Archer");
-        for(int i = 0; i < archers.size(); i++){
-            System.out.println(i+1);
-            archers.get(i).showDetails();
-            System.out.println();
-        }
-        Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
-        
-        return archers.get(Integer.parseInt(userInput)-1);
-    }
-    public Character showKnights() {
-        System.out.println("Select a Knight");
-        for(int i = 0; i < knights.size(); i++){
-            System.out.println(i+1);
-            knights.get(i).showDetails();
-            System.out.println();
-        }
-        Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
-        
-        return knights.get(Integer.parseInt(userInput)-1);
-    }
-    public Character showMages() {
-        System.out.println("Select a Mage");
-        for(int i = 0; i < mages.size(); i++){
-            System.out.println(i+1);
-            mages.get(i).showDetails();
-            System.out.println();
-        }
-        Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
-        
-        return mages.get(Integer.parseInt(userInput)-1);
-    }
-    public Character showHealers() {
-        System.out.println("Select a Healer");
-        for(int i = 0; i < healers.size(); i++){
-            System.out.println(i+1);
-            healers.get(i).showDetails();
-            System.out.println();
-        }
-        Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
-        
-        return healers.get(Integer.parseInt(userInput)-1);
-    }
-    public Character showMythicalCreatures() {
-        System.out.println("Select a Mythical Creature");
-        for(int i = 0; i < mythicalCreatures.size(); i++){
-            System.out.println(i+1);
-            mythicalCreatures.get(i).showDetails();
-            System.out.println();
-        }
-        Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
-        
-        return mythicalCreatures.get(Integer.parseInt(userInput)-1);
-    }
+
     public Equipment showArmours() {
-        System.out.println("Select an Armor");
+        System.out.println(" **SELECT ARMOUR** ");
         for(int i = 0; i < armours.size(); i++){
             System.out.println(i+1);
             armours.get(i).showDetails();
@@ -205,7 +146,7 @@ public class Store {
         }
     }
     public Equipment showArtefacts() {
-        System.out.println("Select an Artefact");
+        System.out.println(" **SELECT AN ARTEFACT** ");
         for(int i = 0; i < artefacts.size(); i++){
             System.out.println(i+1);
             artefacts.get(i).showDetails();
@@ -236,7 +177,12 @@ public class Store {
     public Character showCharacters(){
         Scanner scanner = new Scanner(System.in);
         String userInput;
-        System.out.println("Welcome to the Store");
+        System.out.println(" ____ _____ ___  ____  _____ \n" +
+                "/ ___|_   _/ _ \\|  _ \\| ____|\n" +
+                "\\___ \\ | || | | | |_) |  _|  \n" +
+                " ___) || || |_| |  _ <| |___ \n" +
+                "|____/ |_| \\___/|_| \\_\\_____|");
+        System.out.println("   WELCOME TO THE STORE");
         System.out.println("Characters");
         System.out.println("1. Show Archers");
         System.out.println("2. Show Knights");
@@ -253,7 +199,7 @@ public class Store {
                 System.out.println("Please enter a valid input");
             }
         }
-            List<Character> characters = null;
+            List<Character> characters;
             if (userInput.equals("0")) return null;
             else if (userInput.equals("1")) {
                 characters = archers;

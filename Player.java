@@ -11,11 +11,6 @@ public class Player implements Serializable{
 
     private List<Character> army = new ArrayList<>();
 
-    public Player(String name, String userName) {
-        this.name = name;
-        this.userName = userName;
-    }
-
     public Player(){
 
     }
@@ -97,7 +92,7 @@ public class Player implements Serializable{
             }
             return true;
         }
-        System.out.println("Army is Empty!");
+        System.out.println("YOUR ARMY IS EMPTY. GO TO THE STORE AND BUY CHARACTERS");
         return false;
     }
     public void showArmyMenu() {
@@ -276,8 +271,10 @@ public class Player implements Serializable{
             if(player.army.size()<5) continue;
             player.showDetails();
             player.showArmy();
+            System.out.println("\n **BATTLE FOUND** ");
             System.out.println("\nDo you want to declare war with "+player.getName()+"?");
-            System.out.println("1. Yes! Attack!!!!\n2. No, next player");
+            System.out.println();
+            System.out.println("1. Yes! Attack!!!!\n2. No, Find another player.");
             System.out.println("Enter 0 to Stop Searching");
             Scanner scanner = new Scanner(System.in);
             while(true) {
@@ -304,7 +301,7 @@ public class Player implements Serializable{
         Database.updatePlayers();
     }
     public void showDetails(){
-        System.out.println("\n** Player Details **");
+        System.out.println("\n** PLAYER DETAILS **");
         System.out.println("Name: "+name);
         System.out.println("User Id:"+userId);
         System.out.println("Username: "+userName);

@@ -20,9 +20,12 @@ public class Program {
 
     private static void createOrLoadPlayer(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\n****************************************");
-        System.out.println("********Welcome to Mystic Mayhem********");
-        System.out.println("****************************************\n");
+        System.out.println(" __  ____   ______ _____ ___ ____   __  __    _ __   ___   _ _____ __  __ \n" +
+                "|  \\/  \\ \\ / / ___|_   _|_ _/ ___| |  \\/  |  / \\\\ \\ / / | | | ____|  \\/  |\n" +
+                "| |\\/| |\\ V /\\___ \\ | |  | | |     | |\\/| | / _ \\\\ V /| |_| |  _| | |\\/| |\n" +
+                "| |  | | | |  ___) || |  | | |___  | |  | |/ ___ \\| | |  _  | |___| |  | |\n" +
+                "|_|  |_| |_| |____/ |_| |___\\____| |_|  |_/_/   \\_\\_| |_| |_|_____|_|  |_|");
+        System.out.println("           GREETINGS ADVENTURER! WELCOME TO THE GAME!");
         System.out.println("Choose an option");
         System.out.println("1. Create an Account\n2. Use an Existing Account");
         while (true) {
@@ -47,7 +50,12 @@ public class Program {
     }
 
     private static void showPlayerMenu(){
-        System.out.println("\n** Menu ** (Choose an option)");
+        System.out.println("\n __  __ _____ _   _ _   _ \n" +
+                "|  \\/  | ____| \\ | | | | |\n" +
+                "| |\\/| |  _| |  \\| | | | |\n" +
+                "| |  | | |___| |\\  | |_| |\n" +
+                "|_|  |_|_____|_| \\_|\\___/ ");
+        System.out.println("    CHOOSE AN OPTION");
         System.out.println("1. Show my Details\n2. Show my army\n3. Buy a Character\n4. Sell a Character\n5. Search for a War\n6. Show my HomeGround\n7. Change the HomeGround\n8. Change name\n9. Log out");
         while (true) {
             int choice = 0;
