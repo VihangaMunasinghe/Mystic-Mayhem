@@ -54,7 +54,7 @@ class Character implements Cloneable, Serializable {
 
     public void buyArtefacts(Player currentPlayer) {
         Store store = Store.getInstance();
-        Equipment newArtefact = store.showArmours();
+        Equipment newArtefact = store.showArtefacts();
         if(currentArmour != null && newArtefact.getName().equals(currentArtefact.getName())){
             System.out.println("Already Taken");
         }
