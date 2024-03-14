@@ -1,10 +1,11 @@
+import java.io.Serializable;
 
-class Character implements Cloneable{
+class Character implements Cloneable, Serializable {
     private final String name;
     private final String type;
     private final String category;
     private final int price;
-    private final int currentValue;
+    private int currentValue;
     private int attack;
     private int defence;
     private float health;
@@ -30,8 +31,8 @@ class Character implements Cloneable{
 
     public void buyArmours(Player currentPlayer) {
         Store store = Store.getInstance();
-        Equipment newArmour = store.showArmour();
-        if(newArmour.getName().equals(currentArmour.getName())){
+        Equipment newArmour = store.showArmours();
+        if(currentArmour != null && newArmour.getName().equals(currentArmour.getName())){
             System.out.println("Already Taken");
         }
         else{
@@ -41,6 +42,7 @@ class Character implements Cloneable{
                 currentPlayer.updateGoldCoins(-armorPrice);
                 updateCharacter(currentArmour,newArmour);
                 currentArmour = newArmour;
+                updateCurrentValue();
                 System.out.println(name + " purchased armor for " + armorPrice + " gold coins.");
             }
             else
@@ -51,8 +53,8 @@ class Character implements Cloneable{
 
     public void buyArtefacts(Player currentPlayer) {
         Store store = Store.getInstance();
-        Equipment newArtefact = store.showArmour();
-        if(newArtefact.getName().equals(currentArtefact.getName())){
+        Equipment newArtefact = store.showArmours();
+        if(currentArmour != null && newArtefact.getName().equals(currentArtefact.getName())){
             System.out.println("Already Taken");
         }
         else{
@@ -62,6 +64,7 @@ class Character implements Cloneable{
                 currentPlayer.updateGoldCoins(-artefactPrice);
                 updateCharacter(currentArtefact,newArtefact);
                 currentArtefact = newArtefact;
+                updateCurrentValue();
                 System.out.println(name + " purchased artefact for " + artefactPrice + " gold coins.");
             }
             else
@@ -153,7 +156,15 @@ class Character implements Cloneable{
             health = 0f;
         }
     }
-
+    public void updateCurrentValue(){
+        currentValue = price;
+        if(currentArmour != null){
+            currentValue += (int)(currentArmour.getPrice()*0.2f);
+        }
+        if(currentArtefact != null){
+            currentValue += (int)(currentArtefact.getPrice()*0.2f);
+        }
+    }
     public Character clone() throws CloneNotSupportedException {
         return (Character) super.clone();
     }

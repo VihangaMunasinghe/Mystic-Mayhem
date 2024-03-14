@@ -5,96 +5,76 @@ import java.util.Random;
 
 public class Database implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private static Database instance = null;
     private List<Player> players = new ArrayList<>();
+    private static final String FILE_NAME = "Players.ser";
 
-    private static FileOutputStream fileOutputStream ;
-    private static void createInstance(){
+    private Database() {
+    }
 
-        if(instance == null){
-            try {
-                fileOutputStream = new FileOutputStream("Players.ser");
-            } catch (FileNotFoundException e) {
-                System.out.println("File not found!");
-            }
-            try {
-                FileInputStream fileInputStream = new FileInputStream("Players.ser");
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                instance = (Database) objectInputStream.readObject();
-            } catch (IOException | ClassNotFoundException e) {
-                instance = new Database();
-            }
+    public static synchronized void getInstance() {
+        if (instance == null) {
+            loadInstance();
         }
     }
 
+    private static void loadInstance() {
+        try (FileInputStream fileInputStream = new FileInputStream(FILE_NAME);
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+            instance = (Database) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error loading database: " + e.getMessage());
+            instance = new Database();
+        }
+    }
 
-    public static void saveNewPlayer(Player player){
-        createInstance();
+    public static synchronized void saveNewPlayer(Player player) {
+        getInstance();
         instance.players.add(player);
-        saveList();
+        saveInstance();
     }
-    public static boolean isUserNameAvailable(String userName){
-        createInstance();
-        if(!instance.players.isEmpty()) {
-            for (Player player : instance.players) {
-                if (userName.equals(player.getUserName())) {
-                    return false;
-                }
-            }
-        }
-        return true;
+
+    public static synchronized boolean isUserNameAvailable(String userName) {
+        getInstance();
+        return instance.players.stream().noneMatch(player -> userName.equals(player.getUserName()));
     }
-    public static void updatePlayers(){
-        createInstance();
-        saveList();
+
+    public static synchronized void updatePlayers() {
+        getInstance();
+        saveInstance();
     }
-    public static Player getPlayer(String userName){
-        createInstance();
-        if(!instance.players.isEmpty()) {
-            for (Player player : instance.players) {
-                if (userName.equals(player.getUserName())) {
-                    return player;
-                }
-            }
-        }
-        return null;
+
+    public static synchronized Player getPlayer(String userName) {
+        getInstance();
+        return instance.players.stream()
+                .filter(player -> userName.equals(player.getUserName()))
+                .findFirst()
+                .orElse(null);
     }
-    private static void saveList(){
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+
+    private static void saveInstance() {
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
             objectOutputStream.writeObject(instance);
         } catch (IOException e) {
-            System.out.println("File saving failed!");
-        } finally {
-            try {
-                objectOutputStream.close();
-            } catch (IOException e) {
-                System.out.println("Failed to close the Object output stream!");
-            }
+            System.out.println("Error saving database: " + e.getMessage());
         }
-    }
-    public static int getNextUserId(){
-        createInstance();
-        if(!instance.players.isEmpty()) {
-            return instance.players.getLast().getUserId() + 1;
-        }
-        return 1;
     }
 
-    public static Player getRandomPlayer(Player currentPlayer){
-        createInstance();
-        int size = instance.players.size();
+    public static synchronized int getNextUserId() {
+        getInstance();
+        return instance.players.isEmpty() ? 1 : instance.players.getLast().getUserId() + 1;
+    }
+
+    public static synchronized Player getRandomPlayer(Player currentPlayer) {
+        getInstance();
         Random random = new Random();
-        while(true){
+        int size = instance.players.size();
+        while (true) {
             Player randomPlayer = instance.players.get(random.nextInt(size));
-            if(randomPlayer != currentPlayer){
+            if (!randomPlayer.equals(currentPlayer)) {
                 return randomPlayer;
             }
         }
-
     }
 }
-
-
-

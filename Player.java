@@ -7,7 +7,7 @@ public class Player implements Serializable,Cloneable{
     private String userName;
     private int xp;
     private int goldCoins;
-    private HomeGround homeground;
+    private HomeGround homeGround;
 
     private List<Character> army = new ArrayList<>();
 
@@ -88,18 +88,22 @@ public class Player implements Serializable,Cloneable{
     public void showArmyMenu() {
         int option;
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter 0 to go back");
+        System.out.println("Enter your choice");
         while (true) {
-            System.out.println("Enter 0 to go back");
-            System.out.println("Enter your choice");
             System.out.print("Choice: ");
-            option = scanner.nextInt();
-
-            if (option == 0) {
-                return;
-            } else if (option>0 && option <= army.size()) {
-                break;
-            } else {
-                System.out.println("Invalid Input. Enter a correct input.");
+            try{
+                option = Integer.parseInt(scanner.nextLine());
+                if (option == 0) {
+                    return;
+                } else if (option>0 && option <= army.size()) {
+                    break;
+                } else {
+                    System.out.println("Invalid Input. Enter a correct input.");
+                }
+            }
+            catch (Exception e){
+                System.out.println("Invalid Input. Enter a integer.");
             }
         }
         army.get(option - 1).showDetails();
@@ -111,7 +115,8 @@ public class Player implements Serializable,Cloneable{
         String option2;
         while (true) {
             option2 = scanner.nextLine();
-            if (Objects.equals(option2, "1") || Objects.equals(option2, "2") || Objects.equals(option2, "3")) {
+            if(option2.equals("0")) return;
+            else if (Objects.equals(option2, "1") || Objects.equals(option2, "2") || Objects.equals(option2, "3")) {
                 switch (option2) {
                     case "1":
                         Character character = army.get(option - 1);
@@ -130,10 +135,10 @@ public class Player implements Serializable,Cloneable{
                         }
                         break;
                     case "2":
-                        army.get(option).buyArmours(this);
+                        army.get(option-1).buyArmours(this);
                         break;
                     case "3":
-                        army.get(option).buyArtefacts(this);
+                        army.get(option-1).buyArtefacts(this);
                         break;
                     default:
                         System.out.println();
@@ -144,43 +149,70 @@ public class Player implements Serializable,Cloneable{
             }
         }
     }
-    public HomeGround getHomeground() {
-        return homeground;
+    public HomeGround getHomeGround() {
+        return homeGround;
     }
-
-    public void setHomeground(HomeGround homeground) {
-        this.homeground = homeground;
+    public void showHomeGround(){
+        System.out.println("Home Ground");
+        if(homeGround != null){
+            homeGround.showDetails();
+        }
+        else{
+            System.out.println("No Home Ground Selected!");
+        }
+        System.out.println();
+    }
+    public void setHomeGround(HomeGround homeGround) {
+        this.homeGround = homeGround;
     }
 
     public void buyCharacter(){
         Store store = Store.getInstance();
         Character newCharacter = store.showCharacters();
-        boolean flag = true;
+        if(newCharacter != null) {
+            boolean flag = true;
 
-        for(Character currentCharacter : army){
-            if(currentCharacter.getType().equals(newCharacter.getType())){
-                if(currentCharacter.getName().equals(newCharacter.getName())){
-                    System.out.println("Already Taken");
-                }
-                else {
-                    if (newCharacter.getCurrentValue() < this.getGoldCoins()){
-                        sellCharacter(currentCharacter);
-                        army.add(newCharacter);
-                        flag = false;
-                        updateGoldCoins(-newCharacter.getCurrentValue());
-                        updateUser();
-                    }
-                    else{
-                        System.out.println("Insufficient gold coins to buy this character.");
+            for (Character currentCharacter : army) {
+                if (currentCharacter.getType().equals(newCharacter.getType())) {
+                    if (currentCharacter.getName().equals(newCharacter.getName())) {
+                        System.out.println("Already Taken");
+                    } else {
+                        if (newCharacter.getPrice() < this.getGoldCoins()) {
+                            Scanner scanner = new Scanner(System.in);
+                            System.out.println("Are you sure you want to sell " + currentCharacter.getName() + " and buy " + newCharacter.getName() + "? \nY:Yes\nN:No");
+                            while (true) {
+                                System.out.print("Choice: ");
+                                String confirmOption = scanner.nextLine();
+                                if (confirmOption.equals("Y")) {
+                                    sellCharacter(currentCharacter);
+                                    break;
+                                } else if (confirmOption.equals("N")) {
+                                    break;
+                                } else {
+                                    System.out.println("Invalid Input. Enter a correct input.");
+                                }
+                            }
+                            army.add(newCharacter);
+                            flag = false;
+                            updateGoldCoins(-newCharacter.getCurrentValue());
+                            updateUser();
+                        } else {
+                            System.out.println("Insufficient gold coins to buy this character.");
+                            flag = false;
+                        }
                     }
                 }
             }
-        }
 
-        if(flag){
-            army.add(newCharacter);
-            updateGoldCoins(-newCharacter.getCurrentValue());
-            updateUser();
+            if (flag) {
+                if (newCharacter.getPrice() < this.getGoldCoins()) {
+                    army.add(newCharacter);
+                    updateGoldCoins(-newCharacter.getCurrentValue());
+                    updateUser();
+                } else {
+                    System.out.println("Insufficient gold coins to buy this character.");
+                }
+            }
         }
     }
 
@@ -217,7 +249,7 @@ public class Player implements Serializable,Cloneable{
     }
 
     public void declareWar(Player opponent){
-        Combat combat = new Combat(this, opponent, opponent.getHomeground());
+        Combat combat = new Combat(this, opponent, opponent.getHomeGround());
         combat.fight();
         this.updateUser(); /// This will save both players data in the file.
     }
