@@ -15,13 +15,9 @@ public class Database implements Serializable {
 
     private static FileOutputStream fileOutputStream ;
     private static void createInstance(){
-        try {
-            fileOutputStream = new FileOutputStream("Players.ser");
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found!");
-        }
         if(instance == null){
             try {
+                fileOutputStream = new FileOutputStream("Players.ser");
                 FileInputStream fileInputStream = new FileInputStream("Players.ser");
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
                 instance = (Database) objectInputStream.readObject();
@@ -30,8 +26,6 @@ public class Database implements Serializable {
             }
         }
     }
-
-
     public static void saveNewPlayer(Player player){
         createInstance();
         instance.players.add(player);
@@ -99,6 +93,3 @@ public class Database implements Serializable {
 
     }
 }
-
-
-

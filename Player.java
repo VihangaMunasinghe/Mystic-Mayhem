@@ -41,12 +41,17 @@ public class Player implements Serializable,Cloneable{
 
     public void changeName(){
         System.out.println("\n** Change Your Name **");
-        System.out.print("Enter the new Name: ");
-        Scanner scanner = new Scanner(System.in);
-        String name = scanner.nextLine();
-        if(!name.equals("")){
-            this.name = name;
-            updateUser();
+        while(true) {
+            System.out.print("Enter the new Name: ");
+            Scanner scanner = new Scanner(System.in);
+            String name = scanner.nextLine();
+            if (!name.isEmpty()) {
+                this.name = name;
+                updateUser();
+            }
+            else{
+                System.out.print("Name cannot be empty.");
+            }
         }
     }
     public String getUserName(){
