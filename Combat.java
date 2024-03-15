@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,9 +130,9 @@ public class Combat {
                         "|___/_/ \\_\\_|   |_| |____|___| |___|_|\\_|___/|___/\n");
                 System.out.println("DRAW!");
             }
-            Thread.sleep(2000);
             System.out.println(player1.getName() + " XP: " + player1.getXp() + " GoldCoins: " + player1.getGoldCoins());
             System.out.println(player2.getName() + " XP: " + player2.getXp() + " GoldCoins: " + player2.getGoldCoins());
+            Thread.sleep(2000);
         }
         catch (InterruptedException e){
             System.out.println("Err: Tread Sleep error!");
@@ -149,9 +150,9 @@ public class Combat {
             float damage = (attackPower*0.5f*attacker.getAttack() - 0.1f* defender.getDefence());
             defender.changeHealth(-damage);
         }
-
-        System.out.println(defender.getName()+"'s Health: "+defender.getHealth());
-        System.out.println(attacker.getName()+"'s Health: "+attacker.getHealth());
+        DecimalFormat decFor = new DecimalFormat("#0.0");
+        System.out.println(defender.getName()+"'s Health: "+decFor.format(defender.getHealth()));
+        System.out.println(attacker.getName()+"'s Health: "+decFor.format(attacker.getHealth()));
         if(defender.getHealth()==0){
             System.out.println(defender.getName()+" died!");
             return true;
