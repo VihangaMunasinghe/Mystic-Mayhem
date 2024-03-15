@@ -98,7 +98,7 @@ public class Player implements Serializable{
     public void showArmyMenu() {
         int option;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter 0 to go back");
+        System.out.println("Select a Character to show full details. Enter 0 to go back");
         System.out.println("Enter your choice");
         while (true) {
             System.out.print("Choice: ");
@@ -187,6 +187,7 @@ public class Player implements Serializable{
                 if (currentCharacter.getType().equals(newCharacter.getType())) {
                     if (currentCharacter.getName().equals(newCharacter.getName())) {
                         System.out.println("Already Taken");
+                        flag = false;
                     } else {
                         if (newCharacter.getPrice() < this.getGoldCoins()) {
                             Scanner scanner = new Scanner(System.in);
@@ -205,7 +206,8 @@ public class Player implements Serializable{
                             }
                             army.add(newCharacter);
                             flag = false;
-                            updateGoldCoins(-newCharacter.getCurrentValue());
+                            System.out.println("You bought "+newCharacter.getName()+" for "+newCharacter.getPrice()+" goldCoins.");
+                            updateGoldCoins(-newCharacter.getPrice());
                             updateUser();
                         } else {
                             System.out.println("Insufficient gold coins to buy this character.");
@@ -218,7 +220,8 @@ public class Player implements Serializable{
             if (flag) {
                 if (newCharacter.getPrice() < this.getGoldCoins()) {
                     army.add(newCharacter);
-                    updateGoldCoins(-newCharacter.getCurrentValue());
+                    System.out.println("You bought "+newCharacter.getName()+" for "+newCharacter.getPrice()+" goldCoins.");
+                    updateGoldCoins(-newCharacter.getPrice());
                     updateUser();
                 } else {
                     System.out.println("Insufficient gold coins to buy this character.");
@@ -268,7 +271,7 @@ public class Player implements Serializable{
         System.out.println("\nSearch an Opponent");
         while (true){
             Player player = Database.getRandomPlayer(this);
-            if(player.army.size()<5) continue;
+            if(player == null) return null;
             player.showDetails();
             player.showArmy();
             System.out.println("\n **BATTLE FOUND** ");

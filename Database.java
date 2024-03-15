@@ -74,9 +74,15 @@ public class Database implements Serializable {
         getInstance();
         Random random = new Random();
         int size = instance.players.size();
+        int count = 0;
         while (true) {
+            count++;
+            if(count==100) {
+                System.out.println("No Opponent Found!!");
+                return null;
+            }
             Player randomPlayer = instance.players.get(random.nextInt(size));
-            if (!randomPlayer.equals(currentPlayer) && randomPlayer.getHomeGround() != null) {
+            if (!randomPlayer.equals(currentPlayer) && randomPlayer.getHomeGround() != null && !(randomPlayer.getArmy().size()<5)) {
                 return randomPlayer;
             }
         }

@@ -255,7 +255,7 @@ public class Store {
 
             army.add(ranger);
             army.add(instance.knights.getFirst().clone());
-            army.add(instance.healers.getFirst().clone());
+            army.add(instance.mages.getFirst().clone());
             army.add(medic);
             army.add(instance.mythicalCreatures.getFirst().clone());
         } catch (CloneNotSupportedException e) {
